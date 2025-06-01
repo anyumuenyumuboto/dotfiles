@@ -121,11 +121,12 @@ vim.cmd("set background=light")
 -- init.luaのあるフォルダを開く
 vim.api.nvim_create_user_command("ConfigNvim", function()
 	local nvim_config_dir = nil
+	-- [Vim / NeovimでOS別に設定を切り替える](https://zenn.dev/grtw2116/articles/83b0e7daa6e0b7)
 	-- windowsの場合
-	if vim.fn.has("win32") then
+	if vim.fn.has("win64") == 1 then
 		nvim_config_dir = "~/AppData/Local/nvim/"
-	-- unixの場合
-	elseif vim.fn.has("unix") then
+	-- linuxの場合
+	elseif vim.fn.has("linux") == 1 then
 		nvim_config_dir = "~/.config/nvim/"
 	end
 	vim.cmd("e " .. nvim_config_dir)
