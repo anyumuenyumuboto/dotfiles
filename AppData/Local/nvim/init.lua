@@ -57,8 +57,6 @@ require("lazy").setup({
 		{ "aklt/plantuml-syntax" },
 		{ "neovim/nvim-lspconfig" },
 		{ "cocopon/iceberg.vim" },
-		-- {'godlygeek/tabular'},
-		-- {'preservim/vim-markdown'},
 		{
 			"MeanderingProgrammer/render-markdown.nvim",
 			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
@@ -203,10 +201,8 @@ require("lazy").setup({
 -- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls)
 -- Lua Language Server を有効化
 vim.lsp.enable("lua_ls")
-
 -- TypeScript Language Server を有効化
-vim.lsp.enable("ts_ls")
-
+-- vim.lsp.enable("ts_ls")
 -- Haskell Language Server を有効化
 -- vim.lsp.enable("hls")
 
@@ -239,7 +235,7 @@ vim.api.nvim_create_user_command("ConfigNvim", function()
 	-- windowsの場合
 	if vim.fn.has("win64") then
 		nvim_config_dir = "~/AppData/Local/nvim/"
-	-- unixの場合
+	-- linuxの場合
 	elseif vim.fn.has("linux") then
 		nvim_config_dir = "~/.config/nvim/"
 	end
