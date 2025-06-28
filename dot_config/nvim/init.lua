@@ -110,77 +110,106 @@ require("lazy").setup({
 			},
 		},
 		{
-			"yetone/avante.nvim",
-			-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-			-- ⚠️ must add this setting! ! !
-			build = function()
-				-- conditionally use the correct build system for the current OS
-				if vim.fn.has("win32") == 1 then
-					return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-				else
-					return "make"
-				end
-			end,
-			event = "VeryLazy",
-			version = false, -- Never set this value to "*"! Never!
-			---@module 'avante'
-			---@type avante.Config
+			"olimorris/codecompanion.nvim",
 			opts = {
-				-- add any opts here
-				-- for example
-				-- provider = "claude",
-				provider = "gemini",
-				-- providers = {
-				--   claude = {
-				--     endpoint = "https://api.anthropic.com",
-				--     model = "claude-sonnet-4-20250514",
-				--     timeout = 30000, -- Timeout in milliseconds
-				--       extra_request_body = {
-				--         temperature = 0.75,
-				--         max_tokens = 20480,
-				--       },
-				--   },
-				-- },
+				strategies = {
+					chat = {
+						adapter = "gemini",
+					},
+					inline = {
+						adapter = "gemini",
+					},
+					cmd = {
+						adapter = "gemini",
+					},
+				},
+				adapters = {
+					gemini = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							env = {
+								api_key = vim.env.CODECOMPANION_GEMINI_API_KEY,
+							},
+						})
+					end,
+				},
 			},
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				"MunifTanjim/nui.nvim",
-				--- The below dependencies are optional,
-				"echasnovski/mini.pick", -- for file_selector provider mini.pick
-				"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-				"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-				"ibhagwan/fzf-lua", -- for file_selector provider fzf
-				"stevearc/dressing.nvim", -- for input provider dressing
-				"folke/snacks.nvim", -- for input provider snacks
-				"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-				"zbirenbaum/copilot.lua", -- for providers='copilot'
-				{
-					-- support for image pasting
-					"HakonHarnes/img-clip.nvim",
-					event = "VeryLazy",
-					opts = {
-						-- recommended settings
-						default = {
-							embed_image_as_base64 = false,
-							prompt_for_file_name = false,
-							drag_and_drop = {
-								insert_mode = true,
-							},
-							-- required for Windows users
-							use_absolute_path = true,
-						},
-					},
-				},
-				{
-					-- Make sure to set this up properly if you have lazy=true
-					"MeanderingProgrammer/render-markdown.nvim",
-					opts = {
-						file_types = { "markdown", "Avante" },
-					},
-					ft = { "markdown", "Avante" },
-				},
+				"nvim-treesitter/nvim-treesitter",
 			},
 		},
+		-- {
+		-- 	"yetone/avante.nvim",
+		-- 	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+		-- 	-- ⚠️ must add this setting! ! !
+		-- 	build = function()
+		-- 		-- conditionally use the correct build system for the current OS
+		-- 		if vim.fn.has("win32") == 1 then
+		-- 			return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+		-- 		else
+		-- 			return "make"
+		-- 		end
+		-- 	end,
+		-- 	event = "VeryLazy",
+		-- 	version = false, -- Never set this value to "*"! Never!
+		-- 	---@module 'avante'
+		-- 	---@type avante.Config
+		-- 	opts = {
+		-- 		-- add any opts here
+		-- 		-- for example
+		-- 		-- provider = "claude",
+		-- 		provider = "gemini",
+		-- 		-- providers = {
+		-- 		--   claude = {
+		-- 		--     endpoint = "https://api.anthropic.com",
+		-- 		--     model = "claude-sonnet-4-20250514",
+		-- 		--     timeout = 30000, -- Timeout in milliseconds
+		-- 		--       extra_request_body = {
+		-- 		--         temperature = 0.75,
+		-- 		--         max_tokens = 20480,
+		-- 		--       },
+		-- 		--   },
+		-- 		-- },
+		-- 	},
+		-- 	dependencies = {
+		-- 		"nvim-lua/plenary.nvim",
+		-- 		"MunifTanjim/nui.nvim",
+		-- 		--- The below dependencies are optional,
+		-- 		"echasnovski/mini.pick", -- for file_selector provider mini.pick
+		-- 		"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+		-- 		"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+		-- 		"ibhagwan/fzf-lua", -- for file_selector provider fzf
+		-- 		"stevearc/dressing.nvim", -- for input provider dressing
+		-- 		"folke/snacks.nvim", -- for input provider snacks
+		-- 		"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+		-- 		"zbirenbaum/copilot.lua", -- for providers='copilot'
+		-- 		{
+		-- 			-- support for image pasting
+		-- 			"HakonHarnes/img-clip.nvim",
+		-- 			event = "VeryLazy",
+		-- 			opts = {
+		-- 				-- recommended settings
+		-- 				default = {
+		-- 					embed_image_as_base64 = false,
+		-- 					prompt_for_file_name = false,
+		-- 					drag_and_drop = {
+		-- 						insert_mode = true,
+		-- 					},
+		-- 					-- required for Windows users
+		-- 					use_absolute_path = true,
+		-- 				},
+		-- 			},
+		-- 		},
+		-- 		{
+		-- 			-- Make sure to set this up properly if you have lazy=true
+		-- 			"MeanderingProgrammer/render-markdown.nvim",
+		-- 			opts = {
+		-- 				file_types = { "markdown", "Avante" },
+		-- 			},
+		-- 			ft = { "markdown", "Avante" },
+		-- 		},
+		-- },
+		-- },
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -208,7 +237,7 @@ vim.lsp.enable("lua_ls")
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)
--- ref [lua - Copy into system clipboard from neovim - Stack Overflow](https://stackoverflow.com/questions/75548458/copy-into-system-clipboard-from-neovim) 
+-- ref [lua - Copy into system clipboard from neovim - Stack Overflow](https://stackoverflow.com/questions/75548458/copy-into-system-clipboard-from-neovim)
 if os.getenv("WSL_DISTRO_NAME") then
 	vim.g.clipboard = {
 		name = "win32yank-wsl",
