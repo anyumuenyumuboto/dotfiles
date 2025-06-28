@@ -1,4 +1,7 @@
+{{ if (eq .chezmoi.os "windows") }}
+# windowsの場合はpwshを使う
 [cd]
 command = "pwsh"
+{{ end }}
 [edit]
 command = "nvim"
