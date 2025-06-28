@@ -233,17 +233,17 @@ vim.cmd("set background=light")
 vim.api.nvim_create_user_command("ConfigNvim", function()
 	local nvim_config_dir = nil
 	-- windowsの場合
-	if vim.fn.has("win64") then
+	if vim.fn.has("win64") == 1 then
 		nvim_config_dir = "~/AppData/Local/nvim/"
 	-- linuxの場合
-	elseif vim.fn.has("linux") then
+	elseif vim.fn.has("linux") == 1 then
 		nvim_config_dir = "~/.config/nvim/"
 	end
 	vim.cmd("e " .. nvim_config_dir)
 end, {})
 
 -- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
-if vim.fn.has("win64") then
+if vim.fn.has("win64") == 1 then
 	-- vim.opt.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
 	-- vim.opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command'
 	vim.opt.shell = "pwsh"
