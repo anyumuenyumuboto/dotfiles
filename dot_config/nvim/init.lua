@@ -97,6 +97,11 @@ require("lazy").setup({
 		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 		{ "theHamsta/nvim-dap-virtual-text" },
 		{
+			"williamboman/mason.nvim",
+			"mfussenegger/nvim-dap",
+			"jay-babu/mason-nvim-dap.nvim",
+		},
+		{
 			"NeogitOrg/neogit",
 			dependencies = {
 				"nvim-lua/plenary.nvim", -- required
@@ -218,6 +223,71 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
+
+
+-- JavaScript / TypeScript の設定
+-- pwa-node adapter の定義（重要！）
+-- dap.adapters.pwa_node = {
+-- 	type = "executable",
+-- 	command = "node",
+-- 	args = {
+-- 		os.getenv("HOME") .. "/.js-debug/src/debugServerMain.js", -- 実際のパスに合わせて変更
+-- 		"--server",
+-- 		"4711", -- ポート番号
+-- 	},
+-- }
+
+-- デバッグ設定
+local dap = require("dap")
+
+dap.adapters["js-debug-adapter"]= {
+	type = "executable",
+	command = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/js-debug-adapter",
+	args = { "--server=4711" }, -- ✅ 正しい
+	-- args = { "--server", "4711" },
+	-- command = "node",
+	-- args = {
+	-- 	-- os.getenv("HOME") .. "/.js-debug/src/debugServerMain.js", -- 実際のパスに合わせて変更
+	-- 	os.getenv("HOME") .. "/.local/share/nvim/mason/bin/js-debug-adapter", -- 実際のパスに合わせて変更
+	-- 	"--server",
+	-- 	"4711", -- ポート番号
+	-- },
+}
+
+-- JavaScript 設定
+dap.configurations.javascript = {
+	{
+		-- type = "pwa_node",
+		type = "js-debug-adapter",
+		request = "launch",
+		name = "Launch Current File with JS Debug",
+		runtimeExecutable = "node",
+		runtimeArgs = { "--inspect=9229", "${file}" },
+		restart = true,
+		console = "integratedTerminal",
+		internalConsoleOptions = "neverOpen",
+		-- 下記で js-debug の場所を明示的に指定しても良い
+		-- debugServer = 4711, -- 必要ならポート指定
+	},
+}
+
+-- mason-nvim-dap.nvimの設定 
+require("mason").setup()
+require("mason-nvim-dap").setup()
+
+-- -- 上記の adapter を言語ごとにマップ
+-- dap.configurations.javascript = {
+--   {
+--     type = 'pwa-node',
+--     request = 'launch',
+--     name = 'Launch Current File with JS Debug',
+--     runtimeExecutable = 'nodemon', -- 開発時は nodemon なども可
+--     runtimeArgs = { '--inspect=9229', '${file}' },
+--     restart = true,
+--     console = 'integratedTerminal',
+--     internalConsoleOptions = 'neverOpen',
+--   }
+-- }
 
 -- lazydev.nvim を使用して、nvim-dap-ui の型チェックを有効にして取得する
 -- [rcarriga/nvim-dap-ui: A UI for nvim-dap](https://github.com/rcarriga/nvim-dap-ui)
