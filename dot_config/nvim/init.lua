@@ -38,15 +38,6 @@ require("lazy").setup({
 				})
 			end,
 		},
-		-- {
-		-- 	"ksudate/prev-md.vim",
-		-- 	config = function()
-		-- 		vim.g.prev_md_preview_location = "right"
-		-- 		vim.g.prev_md_preview_width = 80
-		-- 		vim.keymap.set("n", "<leader>mp", "<cmd>PrevMDToggle<cr>", { desc = "Toggle Markdown Preview" })
-		-- 	end,
-		-- },
-		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
 			"vim-skk/eskk.vim",
 			config = function()
@@ -93,14 +84,6 @@ require("lazy").setup({
 				-- fill any relevant options here
 			},
 		},
-		{ "mfussenegger/nvim-dap" },
-		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
-		{ "theHamsta/nvim-dap-virtual-text" },
-		{
-			"williamboman/mason.nvim",
-			"mfussenegger/nvim-dap",
-			"jay-babu/mason-nvim-dap.nvim",
-		},
 		{
 			"NeogitOrg/neogit",
 			dependencies = {
@@ -143,78 +126,50 @@ require("lazy").setup({
 				"nvim-treesitter/nvim-treesitter",
 			},
 		},
-		-- {
-		-- 	"yetone/avante.nvim",
-		-- 	-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-		-- 	-- ⚠️ must add this setting! ! !
-		-- 	build = function()
-		-- 		-- conditionally use the correct build system for the current OS
-		-- 		if vim.fn.has("win32") == 1 then
-		-- 			return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-		-- 		else
-		-- 			return "make"
-		-- 		end
-		-- 	end,
-		-- 	event = "VeryLazy",
-		-- 	version = false, -- Never set this value to "*"! Never!
-		-- 	---@module 'avante'
-		-- 	---@type avante.Config
-		-- 	opts = {
-		-- 		-- add any opts here
-		-- 		-- for example
-		-- 		-- provider = "claude",
-		-- 		provider = "gemini",
-		-- 		-- providers = {
-		-- 		--   claude = {
-		-- 		--     endpoint = "https://api.anthropic.com",
-		-- 		--     model = "claude-sonnet-4-20250514",
-		-- 		--     timeout = 30000, -- Timeout in milliseconds
-		-- 		--       extra_request_body = {
-		-- 		--         temperature = 0.75,
-		-- 		--         max_tokens = 20480,
-		-- 		--       },
-		-- 		--   },
-		-- 		-- },
-		-- 	},
-		-- 	dependencies = {
-		-- 		"nvim-lua/plenary.nvim",
-		-- 		"MunifTanjim/nui.nvim",
-		-- 		--- The below dependencies are optional,
-		-- 		"echasnovski/mini.pick", -- for file_selector provider mini.pick
-		-- 		"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-		-- 		"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-		-- 		"ibhagwan/fzf-lua", -- for file_selector provider fzf
-		-- 		"stevearc/dressing.nvim", -- for input provider dressing
-		-- 		"folke/snacks.nvim", -- for input provider snacks
-		-- 		"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-		-- 		"zbirenbaum/copilot.lua", -- for providers='copilot'
-		-- 		{
-		-- 			-- support for image pasting
-		-- 			"HakonHarnes/img-clip.nvim",
-		-- 			event = "VeryLazy",
-		-- 			opts = {
-		-- 				-- recommended settings
-		-- 				default = {
-		-- 					embed_image_as_base64 = false,
-		-- 					prompt_for_file_name = false,
-		-- 					drag_and_drop = {
-		-- 						insert_mode = true,
-		-- 					},
-		-- 					-- required for Windows users
-		-- 					use_absolute_path = true,
-		-- 				},
-		-- 			},
-		-- 		},
-		-- 		{
-		-- 			-- Make sure to set this up properly if you have lazy=true
-		-- 			"MeanderingProgrammer/render-markdown.nvim",
-		-- 			opts = {
-		-- 				file_types = { "markdown", "Avante" },
-		-- 			},
-		-- 			ft = { "markdown", "Avante" },
-		-- 		},
-		-- },
-		-- },
+		{
+			"voldikss/vim-translator",
+			config = function()
+				vim.g.translator_target_lang = "ja"
+				vim.g.translator_default_engines = { "google" }
+				vim.g.translator_history_enable = true
+				-- vim.g.translator_window_type = "preview"
+				vim.g.translator_window_max_width = 0.5
+				vim.g.translator_window_max_height = 0.9 -- 1 is not working-
+			end,
+		},
+		{
+			"potamides/pantran.nvim",
+			config = function()
+				require("pantran").setup({
+					default_engine = "google",
+					engines = {
+						google = {
+							fallback = {
+								default_source = "ja",
+								default_target = "en",
+							},
+							-- NOTE: must set `DEEPL_AUTH_KEY` env-var
+							-- deepl = {
+							--   default_source = "",
+							--   default_target = "",
+							-- },
+						},
+					},
+				})
+			end,
+		},
+-- init.lua or plugins.lua
+{
+  'anyumuenyumuboto/auto-file-name.nvim', -- Replace with your actual GitHub repository path
+  config = function()
+    require('autofilename').setup({
+      -- Set your options here
+      -- Example:
+      extension = ".md",
+      filename_format = "{{first_line}}_{{strftime:%Y%m%dT%H%M%S}}",
+    })
+  end
+},
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -224,76 +179,6 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
-
--- JavaScript / TypeScript の設定
--- pwa-node adapter の定義（重要！）
--- dap.adapters.pwa_node = {
--- 	type = "executable",
--- 	command = "node",
--- 	args = {
--- 		os.getenv("HOME") .. "/.js-debug/src/debugServerMain.js", -- 実際のパスに合わせて変更
--- 		"--server",
--- 		"4711", -- ポート番号
--- 	},
--- }
-
--- デバッグ設定
-local dap = require("dap")
-
-dap.adapters["js-debug-adapter"]= {
-	type = "executable",
-	command = os.getenv("HOME") .. "/.local/share/nvim/mason/bin/js-debug-adapter",
-	args = { "--server=4711" }, -- ✅ 正しい
-	-- args = { "--server", "4711" },
-	-- command = "node",
-	-- args = {
-	-- 	-- os.getenv("HOME") .. "/.js-debug/src/debugServerMain.js", -- 実際のパスに合わせて変更
-	-- 	os.getenv("HOME") .. "/.local/share/nvim/mason/bin/js-debug-adapter", -- 実際のパスに合わせて変更
-	-- 	"--server",
-	-- 	"4711", -- ポート番号
-	-- },
-}
-
--- JavaScript 設定
-dap.configurations.javascript = {
-	{
-		-- type = "pwa_node",
-		type = "js-debug-adapter",
-		request = "launch",
-		name = "Launch Current File with JS Debug",
-		runtimeExecutable = "node",
-		runtimeArgs = { "--inspect=9229", "${file}" },
-		restart = true,
-		console = "integratedTerminal",
-		internalConsoleOptions = "neverOpen",
-		-- 下記で js-debug の場所を明示的に指定しても良い
-		-- debugServer = 4711, -- 必要ならポート指定
-	},
-}
-
--- mason-nvim-dap.nvimの設定 
-require("mason").setup()
-require("mason-nvim-dap").setup()
-
--- -- 上記の adapter を言語ごとにマップ
--- dap.configurations.javascript = {
---   {
---     type = 'pwa-node',
---     request = 'launch',
---     name = 'Launch Current File with JS Debug',
---     runtimeExecutable = 'nodemon', -- 開発時は nodemon なども可
---     runtimeArgs = { '--inspect=9229', '${file}' },
---     restart = true,
---     console = 'integratedTerminal',
---     internalConsoleOptions = 'neverOpen',
---   }
--- }
-
--- lazydev.nvim を使用して、nvim-dap-ui の型チェックを有効にして取得する
--- [rcarriga/nvim-dap-ui: A UI for nvim-dap](https://github.com/rcarriga/nvim-dap-ui)
--- require("lazydev").setup({
---   library = { "nvim-dap-ui" },
--- })
 
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)

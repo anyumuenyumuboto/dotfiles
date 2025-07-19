@@ -121,10 +121,10 @@ alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 . "$HOME/.cargo/env"
 
 # Haskell Stackが生成する実行ファイルを置くファイルパスにパスを通す
-# export PATH="/home/wanchiwanpu/.local/bin:$PATH"
+# export PATH="$HOME/.local/bin:$PATH"
 
 
-[ -f "/home/wanchiwanpu/.ghcup/env" ] && . "/home/wanchiwanpu/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 export PATH=$PATH:~/.local/bin/
 
 # ref [WSL2でtmux/vimのクリップボードをwinと共有する設定](https://zenn.dev/kujirahand/articles/4b37160f781be7)
@@ -134,3 +134,11 @@ export PATH=$HOME/mybin:$PATH
 # snapにへんこう 
 # export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
+# Goのインストールディレクトリを指定
+export GOROOT=$HOME/go
+
+# Goのプロジェクトやパッケージを管理するワークスペースを指定
+export GOPATH=$HOME/go-work
+
+# Goコマンドへのパスを通す
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
