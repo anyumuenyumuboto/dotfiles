@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# shellcheck source=/dev/null
+. "$(dirname -- "$0")/_/husky.sh"
+
+# ref [WSL2 で動作しているかどうかを判定する Bash スクリプト - Neo's World](https://neos21.net/blog/2020/08/22-01.html)
+if [ "$(uname)" = 'Linux' ]; then
+	echo 'Linux上です'
+	gitleaks git --staged
+
+	# WSL 用の調整
+	if uname -r | grep -q 'microsoft'; then
+		echo 'WSL上です'
+	fi
+
+else
+	echo 'Windows上です'
+	gitleaks.exe git --staged
+
+fi

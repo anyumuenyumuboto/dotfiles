@@ -121,10 +121,10 @@ alias clip='/mnt/c/WINDOWS/system32/clip.exe'
 . "$HOME/.cargo/env"
 
 # Haskell Stackが生成する実行ファイルを置くファイルパスにパスを通す
-# export PATH="/home/wanchiwanpu/.local/bin:$PATH"
+# export PATH="$HOME/.local/bin:$PATH"
 
 
-[ -f "/home/wanchiwanpu/.ghcup/env" ] && . "/home/wanchiwanpu/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
 export PATH=$PATH:~/.local/bin/
 
 # ref [WSL2でtmux/vimのクリップボードをwinと共有する設定](https://zenn.dev/kujirahand/articles/4b37160f781be7)

@@ -54,16 +54,16 @@ end)
 
 config.keys = {
 	-- 中略
-	{
-		key = "n",
-		mods = "CTRL",
-		action = wezterm.action({ EmitEvent = "decrease-opacity" }),
-	},
-	{
-		key = "m",
-		mods = "CTRL",
-		action = wezterm.action({ EmitEvent = "increase-opacity" }),
-	},
+	-- {
+	-- 	key = "n",
+	-- 	mods = "CTRL",
+	-- 	action = wezterm.action({ EmitEvent = "decrease-opacity" }),
+	-- },
+	-- {
+	-- 	key = "m",
+	-- 	mods = "CTRL",
+	-- 	action = wezterm.action({ EmitEvent = "increase-opacity" }),
+	-- },
 	{ key = "E", mods = "ALT", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
 }
 
