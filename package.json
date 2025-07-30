@@ -1,0 +1,23 @@
+{
+  "name": "chezmoi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anyumuenyumuboto/dotfiles.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anyumuenyumuboto/dotfiles/issues"
+  },
+  "homepage": "https://github.com/anyumuenyumuboto/dotfiles#readme",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}

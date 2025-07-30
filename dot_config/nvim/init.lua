@@ -22,6 +22,32 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- 環境変数を読み込む
+local function load_dotenv()
+	local dotenv_path = vim.fn.stdpath("config") .. "/.env" -- または os.getenv("HOME") .. "/.env"
+	local file = io.open(dotenv_path, "r")
+	if not file then
+		return
+	end
+
+	for line in file:lines() do
+		-- コメントや空行をスキップ
+		line = line:match("^%s*(.-)%s*$") -- trim
+		if line ~= "" and not line:match("^#") then
+			local key, value = line:match("^([^=]+)=(.*)$")
+			if key and value then
+				-- ダブルクォートを除去（例: "value" → value）
+				value = value:match('^"(.*)"$') or value:match("^'(.*)'$") or value
+				vim.env[key] = value -- Neovim の vim.env にも即時反映
+			end
+		end
+	end
+	file:close()
+end
+
+-- .env を読み込み
+load_dotenv()
+
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
@@ -158,18 +184,41 @@ require("lazy").setup({
 				})
 			end,
 		},
--- init.lua or plugins.lua
-{
-  'anyumuenyumuboto/auto-file-name.nvim', -- Replace with your actual GitHub repository path
-  config = function()
-    require('autofilename').setup({
-      -- Set your options here
-      -- Example:
-      extension = ".md",
-      filename_format = "{{first_line}}_{{strftime:%Y%m%dT%H%M%S}}",
-    })
-  end
-},
+		-- {
+		-- 	"ellisonleao/dotenv.nvim",
+		-- 	lazy = false,
+		-- 	priority = 1000,
+		-- 	config = function()
+		-- 		-- windowsの場合
+		-- 		local nvim_config_path = nil
+		-- 		if vim.fn.has("win64") == 1 then
+		-- 			local home = os.getenv("USERPROFILE")
+		-- 			nvim_config_path = home .. "/AppData/Local/nvim/"
+		-- 			-- linuxの場合
+		-- 		elseif vim.fn.has("linux") == 1 then
+		-- 			local home = os.getenv("HOME")
+		-- 			nvim_config_path = home .. "/.config/nvim/"
+		-- 		end
+		-- 		require("dotenv").setup({
+		-- 			enable_on_load = true, -- will load your .env file upon loading a buffer
+		-- 			event = "VimEnter",
+		-- 			verbose = true, -- show error notification if .env file is not found and if .env is loaded
+		-- 			file_name = nvim_config_path .. ".env", -- will override the default file name '.env'
+		-- 		})
+		-- 	end,
+		-- },
+		{
+			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			config = function()
+				require("autofilename").setup({
+					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					ai_api_key = vim.env.GEMINI_API_KEY,
+				})
+			end,
+		},
+		{
+			"mpas/marp-nvim",
+		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -178,7 +227,6 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
-
 
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
@@ -266,5 +314,3 @@ if vim.fn.filereadable(config_local_path) == 1 then
 		end, {})
 	end
 end
-
-print("read init.lua!!!")

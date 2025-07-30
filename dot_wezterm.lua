@@ -23,7 +23,7 @@ config.color_scheme = "iceberg-light"
 
 -- PowerShell Core (pwsh.exe) をデフォルトのシェルとして設定
 -- config.default_prog = { 'powershell.exe' }
-config.default_prog = { 'pwsh.exe' }
+config.default_prog = { "pwsh.exe" }
 
 -- 共通部分省略
 -- ref [最高のターミナル環境を手に入れろ！WezTermに入門してみた。 | DevelopersIO](https://dev.classmethod.jp/articles/wezterm-get-started/)

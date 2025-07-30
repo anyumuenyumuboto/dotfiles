@@ -76,6 +76,8 @@ ZSH_THEME="avit"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
+# ref [ZshのVimモード](https://ja.linux-console.net/?p=36786)
+plugins=(vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -133,3 +135,6 @@ export GOPATH=$HOME/go-work
 
 # Goコマンドへのパスを通す
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+# vi mode on
+# bindkey -v
