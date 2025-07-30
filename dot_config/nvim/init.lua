@@ -110,6 +110,10 @@ require("lazy").setup({
 				-- fill any relevant options here
 			},
 		},
+		{ "mfussenegger/nvim-dap" },
+		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
+		{ "theHamsta/nvim-dap-virtual-text" },
+		{ "sindrets/diffview.nvim" },
 		{
 			"NeogitOrg/neogit",
 			dependencies = {
@@ -314,3 +318,5 @@ if vim.fn.filereadable(config_local_path) == 1 then
 		end, {})
 	end
 end
+
+print("read init.lua!!!")

@@ -179,6 +179,50 @@ require("lazy").setup({
 					},
 					ft = { "markdown", "Avante" },
 				},
+				{
+					"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+					config = function()
+						require("autofilename").setup({
+							-- Set your options here
+							-- Example:
+							-- extension = ".txt",
+							-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
+							-- lang = "en", -- 'en', 'ja', 'zh-CN'
+						})
+					end,
+				},
+		{
+			"voldikss/vim-translator",
+			config = function()
+				vim.g.translator_target_lang = "ja"
+				vim.g.translator_default_engines = { "google" }
+				vim.g.translator_history_enable = true
+				-- vim.g.translator_window_type = "preview"
+				vim.g.translator_window_max_width = 0.5
+				vim.g.translator_window_max_height = 0.9 -- 1 is not working-
+			end,
+		},
+		{
+			"potamides/pantran.nvim",
+			config = function()
+				require("pantran").setup({
+					default_engine = "google",
+					engines = {
+						google = {
+							fallback = {
+								default_source = "ja",
+								default_target = "en",
+							},
+							-- NOTE: must set `DEEPL_AUTH_KEY` env-var
+							-- deepl = {
+							--   default_source = "",
+							--   default_target = "",
+							-- },
+						},
+					},
+				})
+			end,
+		},
 			},
 		},
 	},
