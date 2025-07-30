@@ -134,3 +134,11 @@ export PATH=$HOME/mybin:$PATH
 # snapにへんこう 
 # export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
+# Goのインストールディレクトリを指定
+export GOROOT=$HOME/go
+
+# Goのプロジェクトやパッケージを管理するワークスペースを指定
+export GOPATH=$HOME/go-work
+
+# Goコマンドへのパスを通す
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin

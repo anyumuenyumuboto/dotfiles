@@ -22,6 +22,32 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- 環境変数を読み込む
+local function load_dotenv()
+	local dotenv_path = vim.fn.stdpath("config") .. "/.env" -- または os.getenv("HOME") .. "/.env"
+	local file = io.open(dotenv_path, "r")
+	if not file then
+		return
+	end
+
+	for line in file:lines() do
+		-- コメントや空行をスキップ
+		line = line:match("^%s*(.-)%s*$") -- trim
+		if line ~= "" and not line:match("^#") then
+			local key, value = line:match("^([^=]+)=(.*)$")
+			if key and value then
+				-- ダブルクォートを除去（例: "value" → value）
+				value = value:match('^"(.*)"$') or value:match("^'(.*)'$") or value
+				vim.env[key] = value -- Neovim の vim.env にも即時反映
+			end
+		end
+	end
+	file:close()
+end
+
+-- .env を読み込み
+load_dotenv()
+
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
@@ -38,15 +64,6 @@ require("lazy").setup({
 				})
 			end,
 		},
-		-- {
-		-- 	"ksudate/prev-md.vim",
-		-- 	config = function()
-		-- 		vim.g.prev_md_preview_location = "right"
-		-- 		vim.g.prev_md_preview_width = 80
-		-- 		vim.keymap.set("n", "<leader>mp", "<cmd>PrevMDToggle<cr>", { desc = "Toggle Markdown Preview" })
-		-- 	end,
-		-- },
-		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
 			"vim-skk/eskk.vim",
 			config = function()
@@ -111,76 +128,34 @@ require("lazy").setup({
 			},
 		},
 		{
-			"yetone/avante.nvim",
-			-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-			-- ⚠️ must add this setting! ! !
-			build = function()
-				-- conditionally use the correct build system for the current OS
-				if vim.fn.has("win32") == 1 then
-					return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-				else
-					return "make"
-				end
-			end,
-			event = "VeryLazy",
-			version = false, -- Never set this value to "*"! Never!
-			---@module 'avante'
-			---@type avante.Config
+			"olimorris/codecompanion.nvim",
 			opts = {
-				-- add any opts here
-				-- for example
-				-- provider = "claude",
-				provider = "gemini",
-				-- providers = {
-				--   claude = {
-				--     endpoint = "https://api.anthropic.com",
-				--     model = "claude-sonnet-4-20250514",
-				--     timeout = 30000, -- Timeout in milliseconds
-				--       extra_request_body = {
-				--         temperature = 0.75,
-				--         max_tokens = 20480,
-				--       },
-				--   },
-				-- },
+				strategies = {
+					chat = {
+						adapter = "gemini",
+					},
+					inline = {
+						adapter = "gemini",
+					},
+					cmd = {
+						adapter = "gemini",
+					},
+				},
+				adapters = {
+					gemini = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							env = {
+								api_key = vim.env.CODECOMPANION_GEMINI_API_KEY,
+							},
+						})
+					end,
+				},
 			},
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				"MunifTanjim/nui.nvim",
-				--- The below dependencies are optional,
-				"echasnovski/mini.pick", -- for file_selector provider mini.pick
-				"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-				"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-				"ibhagwan/fzf-lua", -- for file_selector provider fzf
-				"stevearc/dressing.nvim", -- for input provider dressing
-				"folke/snacks.nvim", -- for input provider snacks
-				"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-				"zbirenbaum/copilot.lua", -- for providers='copilot'
-				{
-					-- support for image pasting
-					"HakonHarnes/img-clip.nvim",
-					event = "VeryLazy",
-					opts = {
-						-- recommended settings
-						default = {
-							embed_image_as_base64 = false,
-							prompt_for_file_name = false,
-							drag_and_drop = {
-								insert_mode = true,
-							},
-							-- required for Windows users
-							use_absolute_path = true,
-						},
-					},
-				},
-				{
-					-- Make sure to set this up properly if you have lazy=true
-					"MeanderingProgrammer/render-markdown.nvim",
-					opts = {
-						file_types = { "markdown", "Avante" },
-					},
-					ft = { "markdown", "Avante" },
-				},
-
+				"nvim-treesitter/nvim-treesitter",
+			},
+		},
 		{
 			"voldikss/vim-translator",
 			config = function()
@@ -213,7 +188,40 @@ require("lazy").setup({
 				})
 			end,
 		},
-			},
+		-- {
+		-- 	"ellisonleao/dotenv.nvim",
+		-- 	lazy = false,
+		-- 	priority = 1000,
+		-- 	config = function()
+		-- 		-- windowsの場合
+		-- 		local nvim_config_path = nil
+		-- 		if vim.fn.has("win64") == 1 then
+		-- 			local home = os.getenv("USERPROFILE")
+		-- 			nvim_config_path = home .. "/AppData/Local/nvim/"
+		-- 			-- linuxの場合
+		-- 		elseif vim.fn.has("linux") == 1 then
+		-- 			local home = os.getenv("HOME")
+		-- 			nvim_config_path = home .. "/.config/nvim/"
+		-- 		end
+		-- 		require("dotenv").setup({
+		-- 			enable_on_load = true, -- will load your .env file upon loading a buffer
+		-- 			event = "VimEnter",
+		-- 			verbose = true, -- show error notification if .env file is not found and if .env is loaded
+		-- 			file_name = nvim_config_path .. ".env", -- will override the default file name '.env'
+		-- 		})
+		-- 	end,
+		-- },
+		{
+			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			config = function()
+				require("autofilename").setup({
+					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					ai_api_key = vim.env.GEMINI_API_KEY,
+				})
+			end,
+		},
+		{
+			"mpas/marp-nvim",
 		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
@@ -223,12 +231,6 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
-
--- lazydev.nvim を使用して、nvim-dap-ui の型チェックを有効にして取得する
--- [rcarriga/nvim-dap-ui: A UI for nvim-dap](https://github.com/rcarriga/nvim-dap-ui)
--- require("lazydev").setup({
---   library = { "nvim-dap-ui" },
--- })
 
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
@@ -242,7 +244,7 @@ vim.lsp.enable("lua_ls")
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)
--- ref [lua - Copy into system clipboard from neovim - Stack Overflow](https://stackoverflow.com/questions/75548458/copy-into-system-clipboard-from-neovim) 
+-- ref [lua - Copy into system clipboard from neovim - Stack Overflow](https://stackoverflow.com/questions/75548458/copy-into-system-clipboard-from-neovim)
 if os.getenv("WSL_DISTRO_NAME") then
 	vim.g.clipboard = {
 		name = "win32yank-wsl",
@@ -266,7 +268,6 @@ vim.cmd("set background=light")
 -- init.luaのあるフォルダを開く
 vim.api.nvim_create_user_command("ConfigNvim", function()
 	local nvim_config_dir = nil
-	-- [Vim / NeovimでOS別に設定を切り替える](https://zenn.dev/grtw2116/articles/83b0e7daa6e0b7)
 	-- windowsの場合
 	if vim.fn.has("win64") == 1 then
 		nvim_config_dir = "~/AppData/Local/nvim/"
@@ -278,7 +279,7 @@ vim.api.nvim_create_user_command("ConfigNvim", function()
 end, {})
 
 -- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
-if vim.fn.has("win64") then
+if vim.fn.has("win64") == 1 then
 	-- vim.opt.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
 	-- vim.opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command'
 	vim.opt.shell = "pwsh"
