@@ -59,6 +59,7 @@ require("lazy").setup({
 		{ "cocopon/iceberg.vim" },
 		{
 			"MeanderingProgrammer/render-markdown.nvim",
+			ft = { "markdown" },
 			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -66,10 +67,11 @@ require("lazy").setup({
 			-- -@type render.md.UserConfig
 			opts = {},
 		},
-		{ "tyru/open-browser.vim" },
+		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		-- { "previm/previm" },
 		{
 			"brianhuster/live-preview.nvim",
+			ft = { "markdown" },
 			dependencies = {
 				-- You can choose one of the following pickers
 				"nvim-telescope/telescope.nvim",
@@ -181,6 +183,7 @@ require("lazy").setup({
 				},
 				{
 					"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+					-- branch = "develop",
 					config = function()
 						require("autofilename").setup({
 							-- Set your options here
@@ -188,41 +191,45 @@ require("lazy").setup({
 							-- extension = ".txt",
 							-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
 							-- lang = "en", -- 'en', 'ja', 'zh-CN'
+							ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+							ai_api_key = vim.env.API_KEY,
 						})
 					end,
 				},
-		{
-			"voldikss/vim-translator",
-			config = function()
-				vim.g.translator_target_lang = "ja"
-				vim.g.translator_default_engines = { "google" }
-				vim.g.translator_history_enable = true
-				-- vim.g.translator_window_type = "preview"
-				vim.g.translator_window_max_width = 0.5
-				vim.g.translator_window_max_height = 0.9 -- 1 is not working-
-			end,
-		},
-		{
-			"potamides/pantran.nvim",
-			config = function()
-				require("pantran").setup({
-					default_engine = "google",
-					engines = {
-						google = {
-							fallback = {
-								default_source = "ja",
-								default_target = "en",
+				{
+					"voldikss/vim-translator",
+					event = "VeryLazy",
+					config = function()
+						vim.g.translator_target_lang = "ja"
+						vim.g.translator_default_engines = { "google" }
+						vim.g.translator_history_enable = true
+						-- vim.g.translator_window_type = "preview"
+						vim.g.translator_window_max_width = 0.5
+						vim.g.translator_window_max_height = 0.9 -- 1 is not working-
+					end,
+				},
+				{
+					"potamides/pantran.nvim",
+					event = "VeryLazy",
+					config = function()
+						require("pantran").setup({
+							default_engine = "google",
+							engines = {
+								google = {
+									fallback = {
+										default_source = "ja",
+										default_target = "en",
+									},
+									-- NOTE: must set `DEEPL_AUTH_KEY` env-var
+									-- deepl = {
+									--   default_source = "",
+									--   default_target = "",
+									-- },
+								},
 							},
-							-- NOTE: must set `DEEPL_AUTH_KEY` env-var
-							-- deepl = {
-							--   default_source = "",
-							--   default_target = "",
-							-- },
-						},
-					},
-				})
-			end,
-		},
+						})
+					end,
+				},
 			},
 		},
 	},

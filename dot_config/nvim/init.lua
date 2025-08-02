@@ -213,6 +213,7 @@ require("lazy").setup({
 		-- },
 		{
 			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			branch = "develop",
 			config = function()
 				require("autofilename").setup({
 					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
