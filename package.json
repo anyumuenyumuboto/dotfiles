@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/anyumuenyumuboto/dotfiles#readme",
   "devDependencies": {
+    "@types/google-apps-script": "^1.0.99",
     "husky": "^8.0.0"
   }
 }

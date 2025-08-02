@@ -76,6 +76,7 @@ require("lazy").setup({
 		{ "cocopon/iceberg.vim" },
 		{
 			"MeanderingProgrammer/render-markdown.nvim",
+			ft = { "markdown" },
 			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -83,10 +84,11 @@ require("lazy").setup({
 			-- -@type render.md.UserConfig
 			opts = {},
 		},
-		{ "tyru/open-browser.vim" },
+		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		-- { "previm/previm" },
 		{
 			"brianhuster/live-preview.nvim",
+			ft = { "markdown" },
 			dependencies = {
 				-- You can choose one of the following pickers
 				"nvim-telescope/telescope.nvim",
@@ -113,9 +115,11 @@ require("lazy").setup({
 		{ "mfussenegger/nvim-dap" },
 		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 		{ "theHamsta/nvim-dap-virtual-text" },
-		{ "sindrets/diffview.nvim" },
+		{ "sindrets/diffview.nvim", 
+event = "VeryLazy" },
 		{
 			"NeogitOrg/neogit",
+			event = "VeryLazy",
 			dependencies = {
 				"nvim-lua/plenary.nvim", -- required
 				"sindrets/diffview.nvim", -- optional - Diff integration
@@ -129,6 +133,7 @@ require("lazy").setup({
 		},
 		{
 			"olimorris/codecompanion.nvim",
+			event = "VeryLazy",
 			opts = {
 				strategies = {
 					chat = {
@@ -158,6 +163,7 @@ require("lazy").setup({
 		},
 		{
 			"voldikss/vim-translator",
+			event = "VeryLazy",
 			config = function()
 				vim.g.translator_target_lang = "ja"
 				vim.g.translator_default_engines = { "google" }
@@ -169,6 +175,7 @@ require("lazy").setup({
 		},
 		{
 			"potamides/pantran.nvim",
+			event = "VeryLazy",
 			config = function()
 				require("pantran").setup({
 					default_engine = "google",
@@ -178,13 +185,9 @@ require("lazy").setup({
 								default_source = "ja",
 								default_target = "en",
 							},
-							-- NOTE: must set `DEEPL_AUTH_KEY` env-var
-							-- deepl = {
-							--   default_source = "",
-							--   default_target = "",
-							-- },
 						},
 					},
+					-- ref [pantran.nvim/doc/README.md at main · potamides/pantran.nvim](https://github.com/potamides/pantran.nvim/blob/main/doc/README.md#default-mappings)
 				})
 			end,
 		},
@@ -222,6 +225,7 @@ require("lazy").setup({
 		},
 		{
 			"mpas/marp-nvim",
+			ft = { "markdown" },
 		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
@@ -318,5 +322,3 @@ if vim.fn.filereadable(config_local_path) == 1 then
 		end, {})
 	end
 end
-
-print("read init.lua!!!")
