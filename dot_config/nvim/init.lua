@@ -115,8 +115,7 @@ require("lazy").setup({
 		{ "mfussenegger/nvim-dap" },
 		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
 		{ "theHamsta/nvim-dap-virtual-text" },
-		{ "sindrets/diffview.nvim", 
-event = "VeryLazy" },
+		{ "sindrets/diffview.nvim", event = "VeryLazy" },
 		{
 			"NeogitOrg/neogit",
 			event = "VeryLazy",
@@ -218,7 +217,8 @@ event = "VeryLazy" },
 			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
 			config = function()
 				require("autofilename").setup({
-					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					-- ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
 					ai_api_key = vim.env.GEMINI_API_KEY,
 				})
 			end,
@@ -226,6 +226,19 @@ event = "VeryLazy" },
 		{
 			"mpas/marp-nvim",
 			ft = { "markdown" },
+		},
+		{ "mhinz/vim-startify" },
+		{
+			"rmagatti/auto-session",
+			lazy = false,
+
+			---enables autocomplete for opts
+			---@module "auto-session"
+			---@type AutoSession.Config
+			opts = {
+				suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+				-- log_level = 'debug',
+			},
 		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
