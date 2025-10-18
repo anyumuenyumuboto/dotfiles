@@ -1,0 +1,4 @@
+# my alias 
+alias dc='cd ~/storage/shared/Documents/'
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
