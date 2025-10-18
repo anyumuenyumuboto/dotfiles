@@ -2,3 +2,16 @@
 alias dc='cd ~/storage/shared/Documents/'
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+
+# https://github.com/marlonrichert/zsh-autocomplete
+# source ~/mybin/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+# https://github.com/zsh-users/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# https://github.com/starship/starship/blob/master/docs%2Fja-JP%2Fguide%2FREADME.md
+eval "$(starship init zsh)"
+
+# [Installation | Task](https://taskfile.dev/docs/installation#setup-completions)
+# ~/.zshrc
+eval "$(task --completion zsh)"
