@@ -52,6 +52,7 @@ load_dotenv()
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		{ "machakann/vim-sandwich" },
 		{ "nvim-lua/plenary.nvim" },
 		{
 			"glepnir/template.nvim",
@@ -272,11 +273,21 @@ require("lazy").setup({
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
 -- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls)
 -- Lua Language Server を有効化
-vim.lsp.enable("lua_ls")
+-- vim.lsp.enable("lua_ls")
 -- TypeScript Language Server を有効化
--- vim.lsp.enable("ts_ls")
+vim.lsp.enable("ts_ls")
 -- Haskell Language Server を有効化
 -- vim.lsp.enable("hls")
+
+-- [【Neovim】v0.11アップデート内容がアツいらしい #Vim - Qiita](https://qiita.com/kosuke_ikeda/items/8b8ec46fdde4b704e0b7#2-%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E3%81%8C%E3%83%93%E3%83%AB%E3%83%88%E3%82%A4%E3%83%B3%E3%81%AB)
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if client:supports_method("textDocument/completion") then
+            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+        end
+    end,
+})
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)

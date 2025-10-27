@@ -1,3 +1,14 @@
 README.md
 package.json
 package-lock.json
+LICENSE
+{{ if eq .chezmoi.os "linux" }}
+AppData/*
+dot_wezterm.lua
+{{ else if eq .chezmoi.os "windows" }}
+dot_config/*
+dot_zshrc
+{{ end }}
+{{ if eq .myprofile "work" }}
+private_dot_ssh/config
+{{ end }}

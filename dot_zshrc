@@ -9,6 +9,30 @@
 #   export EDITOR='nvim'
 # fi
 
+export EDITOR=nvim
+export VISUAL=nvim
+
+# 履歴ファイルのパス（デフォルトは ~/.zsh_history）
+HISTFILE=~/.zsh_history
+
+# メモリに保持する履歴の最大数
+HISTSIZE=100
+
+# 履歴ファイルに保存する最大コマンド数
+SAVEHIST=10000
+
+# 履歴を追記モードで保存（上書きしない）
+setopt APPEND_HISTORY
+
+# 複数の Zsh セッション間で履歴を即座に共有（オプション）
+setopt SHARE_HISTORY
+
+# 重複コマンドを履歴に追加しない（オプション）
+setopt HIST_IGNORE_DUPS
+
+# スペースで始まるコマンドを履歴に残さない（オプション）
+setopt HIST_IGNORE_SPACE
+
 # snapパッケージへのパスを通す
 export PATH="$PATH:/snap/bin"
 
@@ -44,6 +68,9 @@ export NVM_DIR="$HOME/.nvm"
 # https://github.com/zsh-users/zsh-autosuggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# https://github.com/zsh-users/zsh-syntax-highlighting
+source /home/wanchiwanpu/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # https://github.com/starship/starship/blob/master/docs%2Fja-JP%2Fguide%2FREADME.md
 eval "$(starship init zsh)"
 
@@ -51,5 +78,5 @@ eval "$(starship init zsh)"
 # ~/.zshrc
 eval "$(task --completion zsh)"
 
-export EDITOR=nvim
-export VISUAL=nvim
+# [Installation](https://docs.deno.com/runtime/getting_started/installation/)
+. "/home/wanchiwanpu/.deno/env"
