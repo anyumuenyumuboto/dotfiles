@@ -1,0 +1,35 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  TIMESTAMP:
+    sh: "date +%Y%m%dT%H%M%S"
+
+tasks:
+  install_shell_prompt:
+    cmds:
+      - curl -sS https://starship.rs/install.sh | sh
+  install_zsh_plugin:
+    dir: ~/.zsh
+    cmds:
+      - git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+      - git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+  install_rust:
+    cmds:
+      - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  install_deno:
+    cmds:
+      - curl -fsSL https://deno.land/install.sh | sh
+  install_tools:
+    cmds:
+      - go install github.com/jesseduffield/lazygit@latest
+      # [mvdan/sh: A shell parser, formatter, and interpreter with bash support; includes shfmt](https://github.com/mvdan/sh)
+      - go install mvdan.cc/sh/v3/cmd/shfmt@latest
+      # [koalaman/shellcheck: ShellCheck, a static analysis tool for shell scripts](https://github.com/koalaman/shellcheck?tab=readme-ov-file)
+      - stack update
+      - stack install ShellCheck
+  git_bundle_backup:
+    desc: "create git bundle for backup branch"
+    cmds: 
+      - git bundle create ~/mytmp/{{.TIMESTAMP}}.bundle {{.CLI_ARGS}}

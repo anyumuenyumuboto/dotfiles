@@ -132,36 +132,6 @@ require("lazy").setup({
 				"folke/snacks.nvim", -- optional
 			},
 		},
-		-- {
-		-- 	"olimorris/codecompanion.nvim",
-		-- 	event = "VeryLazy",
-		-- 	opts = {
-		-- 		strategies = {
-		-- 			chat = {
-		-- 				adapter = "gemini",
-		-- 			},
-		-- 			inline = {
-		-- 				adapter = "gemini",
-		-- 			},
-		-- 			cmd = {
-		-- 				adapter = "gemini",
-		-- 			},
-		-- 		},
-		-- 		adapters = {
-		-- 			gemini = function()
-		-- 				return require("codecompanion.adapters").extend("gemini", {
-		-- 					env = {
-		-- 						api_key = vim.env.CODECOMPANION_GEMINI_API_KEY,
-		-- 					},
-		-- 				})
-		-- 			end,
-		-- 		},
-		-- 	},
-		-- 	dependencies = {
-		-- 		"nvim-lua/plenary.nvim",
-		-- 		"nvim-treesitter/nvim-treesitter",
-		-- 	},
-		-- },
 		{
 			"voldikss/vim-translator",
 			event = "VeryLazy",
@@ -192,29 +162,6 @@ require("lazy").setup({
 				})
 			end,
 		},
-		-- {
-		-- 	"ellisonleao/dotenv.nvim",
-		-- 	lazy = false,
-		-- 	priority = 1000,
-		-- 	config = function()
-		-- 		-- windowsの場合
-		-- 		local nvim_config_path = nil
-		-- 		if vim.fn.has("win64") == 1 then
-		-- 			local home = os.getenv("USERPROFILE")
-		-- 			nvim_config_path = home .. "/AppData/Local/nvim/"
-		-- 			-- linuxの場合
-		-- 		elseif vim.fn.has("linux") == 1 then
-		-- 			local home = os.getenv("HOME")
-		-- 			nvim_config_path = home .. "/.config/nvim/"
-		-- 		end
-		-- 		require("dotenv").setup({
-		-- 			enable_on_load = true, -- will load your .env file upon loading a buffer
-		-- 			event = "VimEnter",
-		-- 			verbose = true, -- show error notification if .env file is not found and if .env is loaded
-		-- 			file_name = nvim_config_path .. ".env", -- will override the default file name '.env'
-		-- 		})
-		-- 	end,
-		-- },
 		{
 			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
 			config = function()
@@ -230,37 +177,6 @@ require("lazy").setup({
 			ft = { "markdown" },
 		},
 		{ "mhinz/vim-startify" },
-		-- 参考: [Neovimでバッファを管理するプラグインを作った](https://zenn.dev/vim_jp/articles/bufmanager-nvim)
-		{
-			"gw31415/bufmanager.nvim",
-			dependencies = {
-				"gw31415/fzyselect.vim",
-				config = function()
-					vim.api.nvim_create_autocmd("FileType", {
-						pattern = "fzyselect",
-						callback = function()
-							vim.keymap.set("n", "i", require("fzyselect").input, { buffer = true })
-							vim.keymap.set("n", "<cr>", require("fzyselect").cr, { buffer = true })
-							vim.keymap.set("n", "<esc>", "<cmd>clo<cr>", { buffer = true })
-						end,
-					})
-				end,
-			},
-			event = "BufAdd",
-			config = function()
-				vim.keymap.set("n", "gb", function()
-					vim.api.nvim_create_autocmd("BufEnter", {
-						once = true,
-						callback = function()
-							vim.keymap.set({ "n", "x" }, "d", "<Plug>(bufmanager-bdelete)", { buffer = true })
-							vim.keymap.set("n", "dd", "<Plug>(bufmanager-bdelete)_", { buffer = true })
-						end,
-					})
-					vim.fn["bufmanager#open"]()
-				end)
-			end,
-		},
-	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
 	install = { colorscheme = { "habamax" } },
