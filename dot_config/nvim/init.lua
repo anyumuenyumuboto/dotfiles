@@ -52,6 +52,24 @@ load_dotenv()
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		-- For `plugins.lua` users.
+		{
+			"OXY2DEV/markview.nvim",
+			lazy = false,
+
+			-- For blink.cmp's completion
+			-- source
+			-- dependencies = {
+			--     "saghen/blink.cmp"
+			-- },
+		},
+		{ "lewis6991/gitsigns.nvim" },
+		{
+			"nacro90/numb.nvim",
+			config = function()
+				require("numb").setup()
+			end,
+		},
 		{ "machakann/vim-sandwich" },
 		{ "nvim-lua/plenary.nvim" },
 		{
@@ -76,16 +94,6 @@ require("lazy").setup({
 		{ "aklt/plantuml-syntax" },
 		{ "neovim/nvim-lspconfig" },
 		{ "cocopon/iceberg.vim" },
-		{
-			"MeanderingProgrammer/render-markdown.nvim",
-			ft = { "markdown" },
-			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-			---@module 'render-markdown'
-			-- -@type render.md.UserConfig
-			opts = {},
-		},
 		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		-- { "previm/previm" },
 		{
@@ -177,12 +185,13 @@ require("lazy").setup({
 			ft = { "markdown" },
 		},
 		{ "mhinz/vim-startify" },
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
-	install = { colorscheme = { "habamax" } },
-	-- install = { colorscheme = { "shirotelin" } },
-	-- automatically check for plugin updates
-	checker = { enabled = true },
+		-- Configure any other settings here. See the documentation for more details.
+		-- colorscheme that will be used when installing plugins.
+		install = { colorscheme = { "habamax" } },
+		-- install = { colorscheme = { "shirotelin" } },
+		-- automatically check for plugin updates
+		checker = { enabled = true },
+	},
 })
 
 -- Language Server を有効化する
@@ -197,12 +206,12 @@ vim.lsp.enable("ts_ls")
 
 -- [【Neovim】v0.11アップデート内容がアツいらしい #Vim - Qiita](https://qiita.com/kosuke_ikeda/items/8b8ec46fdde4b704e0b7#2-%E8%87%AA%E5%8B%95%E8%A3%9C%E5%AE%8C%E3%81%8C%E3%83%93%E3%83%AB%E3%83%88%E3%82%A4%E3%83%B3%E3%81%AB)
 vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(ev)
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client:supports_method("textDocument/completion") then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-        end
-    end,
+	callback = function(ev)
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		if client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+		end
+	end,
 })
 
 -- WSL環境でのみクリップボード設定を有効にする

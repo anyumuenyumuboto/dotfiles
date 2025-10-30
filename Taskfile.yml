@@ -2,9 +2,15 @@
 
 version: '3'
 
+dotenv: [".env"]
+
 vars:
   TIMESTAMP:
     sh: "date +%Y%m%dT%H%M%S"
+  CURRENT_BRANCH:
+    sh: "git branch --show-current"
+  REPOSITORY_NAME:
+    sh: 'basename -s .git "$(git config --get remote.origin.url)"'
 
 tasks:
   install_shell_prompt:
@@ -30,6 +36,7 @@ tasks:
       - stack update
       - stack install ShellCheck
   git_bundle_backup:
+    dir: "{{.USER_WORKING_DIR}}"
     desc: "create git bundle for backup branch"
     cmds: 
-      - git bundle create ~/mytmp/{{.TIMESTAMP}}.bundle {{.CLI_ARGS}}
+      - git bundle create "$GIT_BUNDLE_BACKUP_DIR/{{.REPOSITORY_NAME}}_{{.CURRENT_BRANCH}}_{{.TIMESTAMP}}.bundle" "{{.CURRENT_BRANCH}}"
