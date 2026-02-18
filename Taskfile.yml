@@ -3,10 +3,6 @@
 version: '3'
 
 tasks:
-  install_shell_prompt:
-    cmds:
-      - winget install starship
   install_tools:
     cmds:
-      - go install github.com/jesseduffield/lazygit@latest
-
+      - winget import --import-file my_windows_packages.json
