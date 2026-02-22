@@ -7,73 +7,6 @@ Invoke-Expression  (&task --completion powershell | Out-String)
 # [Starship](https://starship.rs/)
 Invoke-Expression (&starship init powershell)
 
-# neovimのshadaファイルを削除する
-function My-Remove-NvimShada {
-	Remove-Item -Path "~\AppData\Local\nvim-data\shada\*"
-	Write-Host 'Remove-Item -Path "~\AppData\Local\nvim-data\shada\*\"'
-}
-# .envファイルを読み込む
-function My-Load-DotEnv {
-    param(
-        [string]$Path = "."
-    )
-
-    $envFile = Join-Path $Path ".env"
-
-    if (-Not (Test-Path $envFile)) {
-        Write-Host ".env ファイルが '$envFile' にありません。" -ForegroundColor Red
-        return
-    }
-
-    Get-Content $envFile | ForEach-Object {
-        if ($_ -match '^\s*#') { return }
-        if ($_ -match '^\s*([a-zA-Z_]\w*)=(.*)?') {
-            $name = $matches[1]
-            $value = $matches[2] -replace '^"|"$', ''
-            Set-Item Env:$name $value
-        }
-    }
-
-    Write-Host ".env ファイルを読み込みました: $envFile" -ForegroundColor Green
-}
-# ゴミ箱にファイルを移動する
-function My-Move-ToRecycleBin {
-    [CmdletBinding(SupportsShouldProcess)]
-    param (
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 0)]
-        [string[]]$Path,
-
-        [switch]$Force
-    )
-
-    begin {
-        Add-Type -AssemblyName Microsoft.VisualBasic
-        $uiOption = [Microsoft.VisualBasic.FileIO.UIOption]::OnlyErrorDialogs
-        $recycleOption = [Microsoft.VisualBasic.FileIO.RecycleOption]::SendToRecycleBin
-    }
-
-    process {
-        foreach ($item in $Path) {
-            if ($PSCmdlet.ShouldProcess($item, "Move to Recycle Bin")) {
-                try {
-                    [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile(
-                        $item,
-                        $uiOption,
-                        $recycleOption
-                    )
-                } catch {
-                    Write-Error "Failed to move '$item' to Recycle Bin: $_"
-                }
-            }
-        }
-    }
-}
-
-# 管理者権限でpowershellを起動
-function CustomSudo {
-    Start-Process powershell.exe -Verb runas
-}
-
 # firefox のbookmarkを上書きコピーでバックアップ
 function firefoxbookmarkbackup() {
     # firefox のbookmarkを上書きコピーでバックアップ(確認メッセージ付き)
@@ -122,7 +55,6 @@ function Format-PSScript {
     )
     $formattedCode = Invoke-Formatter -ScriptDefinition (Get-Content $Path -Raw)
     # BOM付UTF-8形式でファイルに出力
-    # $formattedCode | Set-Content $Path
     $formattedCode | Out-File -FilePath $Path -Encoding UTF8
     Write-Output "Formatted: $Path"
 }

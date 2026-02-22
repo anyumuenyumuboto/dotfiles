@@ -27,17 +27,36 @@ require("lazy").setup({
 	spec = {
 		-- add your plugins here
 		{
-			"glepnir/template.nvim",
-			cmd = { "Template", "TemProject" },
+			"nvim-treesitter/nvim-treesitter",
+			lazy = false,
+			build = ":TSUpdate",
+		},
+		{
+			"A7Lavinraj/fyler.nvim",
+			dependencies = { "nvim-mini/mini.icons" },
+			lazy = false, -- Necessary for `default_explorer` to work properly
+			opts = {},
+		},
+		{ "machakann/vim-sandwich" },
+		{
+			"nacro90/numb.nvim",
 			config = function()
-				require("template").setup({
-					-- config in there
-					temp_dir = vim.fn.stdpath("config") .. "/templates", -- Neovimの設定フォルダ内に templates ディレクトリを作成
-					remove_trailing_spaces = false, -- 余分な空白削除を無効化（エラー回避）
-					update_on_save = true, -- 保存時にテンプレートの更新を許可
-				})
+				require("numb").setup()
 			end,
 		},
+
+		{
+			"OXY2DEV/markview.nvim",
+			lazy = false,
+
+			-- For blink.cmp's completion
+			-- source
+			-- dependencies = {
+			--     "saghen/blink.cmp"
+			-- },
+		},
+		{ "lewis6991/gitsigns.nvim" },
+
 		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
 			"vim-skk/eskk.vim",
@@ -46,21 +65,9 @@ require("lazy").setup({
 					{ path = "~/AppData/Local/nvim/SKK-JISYO.L", sorted = 1, encoding = "euc-jp" }
 			end,
 		},
-		{ "aklt/plantuml-syntax" },
 		{ "neovim/nvim-lspconfig" },
 		{ "cocopon/iceberg.vim" },
-		{
-			"MeanderingProgrammer/render-markdown.nvim",
-			ft = { "markdown" },
-			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-			---@module 'render-markdown'
-			-- -@type render.md.UserConfig
-			opts = {},
-		},
 		{ "tyru/open-browser.vim", event = "VeryLazy" },
-		-- { "previm/previm" },
 		{
 			"brianhuster/live-preview.nvim",
 			ft = { "markdown" },
@@ -88,92 +95,71 @@ require("lazy").setup({
 			},
 		},
 		{
-			"NeogitOrg/neogit",
-			dependencies = {
-				"nvim-lua/plenary.nvim", -- required
-				"sindrets/diffview.nvim", -- optional - Diff integration
-
-				-- Only one of these is needed.
-				"nvim-telescope/telescope.nvim", -- optional
-				"ibhagwan/fzf-lua", -- optional
-				"echasnovski/mini.pick", -- optional
-				"folke/snacks.nvim", -- optional
+			-- support for image pasting
+			"HakonHarnes/img-clip.nvim",
+			event = "VeryLazy",
+			opts = {
+				-- recommended settings
+				default = {
+					embed_image_as_base64 = false,
+					prompt_for_file_name = false,
+					drag_and_drop = {
+						insert_mode = true,
+					},
+					-- required for Windows users
+					use_absolute_path = true,
+				},
 			},
 		},
-				{
-					-- support for image pasting
-					"HakonHarnes/img-clip.nvim",
-					event = "VeryLazy",
-					opts = {
-						-- recommended settings
-						default = {
-							embed_image_as_base64 = false,
-							prompt_for_file_name = false,
-							drag_and_drop = {
-								insert_mode = true,
+		{
+			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			-- branch = "develop",
+			config = function()
+				require("autofilename").setup({
+					-- Set your options here
+					-- Example:
+					-- extension = ".txt",
+					-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
+					-- lang = "en", -- 'en', 'ja', 'zh-CN'
+					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					ai_api_key = vim.env.API_KEY,
+				})
+			end,
+		},
+		{
+			"voldikss/vim-translator",
+			event = "VeryLazy",
+			config = function()
+				vim.g.translator_target_lang = "ja"
+				vim.g.translator_default_engines = { "google" }
+				vim.g.translator_history_enable = true
+				-- vim.g.translator_window_type = "preview"
+				vim.g.translator_window_max_width = 0.5
+				vim.g.translator_window_max_height = 0.9 -- 1 is not working-
+			end,
+		},
+		{
+			"potamides/pantran.nvim",
+			event = "VeryLazy",
+			config = function()
+				require("pantran").setup({
+					default_engine = "google",
+					engines = {
+						google = {
+							fallback = {
+								default_source = "ja",
+								default_target = "en",
 							},
-							-- required for Windows users
-							use_absolute_path = true,
+							-- NOTE: must set `DEEPL_AUTH_KEY` env-var
+							-- deepl = {
+							--   default_source = "",
+							--   default_target = "",
+							-- },
 						},
 					},
-				},
-				{
-					-- Make sure to set this up properly if you have lazy=true
-					"MeanderingProgrammer/render-markdown.nvim",
-					opts = {
-						file_types = { "markdown", "Avante" },
-					},
-					ft = { "markdown", "Avante" },
-				},
-				{
-					"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
-					-- branch = "develop",
-					config = function()
-						require("autofilename").setup({
-							-- Set your options here
-							-- Example:
-							-- extension = ".txt",
-							-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
-							-- lang = "en", -- 'en', 'ja', 'zh-CN'
-							ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
-							ai_api_key = vim.env.API_KEY,
-						})
-					end,
-				},
-				{
-					"voldikss/vim-translator",
-					event = "VeryLazy",
-					config = function()
-						vim.g.translator_target_lang = "ja"
-						vim.g.translator_default_engines = { "google" }
-						vim.g.translator_history_enable = true
-						-- vim.g.translator_window_type = "preview"
-						vim.g.translator_window_max_width = 0.5
-						vim.g.translator_window_max_height = 0.9 -- 1 is not working-
-					end,
-				},
-				{
-					"potamides/pantran.nvim",
-					event = "VeryLazy",
-					config = function()
-						require("pantran").setup({
-							default_engine = "google",
-							engines = {
-								google = {
-									fallback = {
-										default_source = "ja",
-										default_target = "en",
-									},
-									-- NOTE: must set `DEEPL_AUTH_KEY` env-var
-									-- deepl = {
-									--   default_source = "",
-									--   default_target = "",
-									-- },
-								},
-							},
-						})
-					end,
-				},
+				})
+			end,
+		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -183,21 +169,19 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
--- lazydev.nvim を使用して、nvim-dap-ui の型チェックを有効にして取得する
--- [rcarriga/nvim-dap-ui: A UI for nvim-dap](https://github.com/rcarriga/nvim-dap-ui)
--- require("lazydev").setup({
---   library = { "nvim-dap-ui" },
--- })
-
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
--- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls)
+-- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
 -- Lua Language Server を有効化
 vim.lsp.enable("lua_ls")
 -- TypeScript Language Server を有効化
--- vim.lsp.enable("ts_ls")
+vim.lsp.enable("ts_ls")
 -- Haskell Language Server を有効化
 vim.lsp.enable("hls")
+-- Purescript Language Server を有効化
+vim.lsp.enable("purescriptls")
+-- rust-analyzer (aka rls 2.0), a language server for Rust
+vim.lsp.enable("rust_analyzer")
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)
@@ -222,58 +206,10 @@ vim.cmd("colorscheme iceberg")
 -- 背景色を設定する
 vim.cmd("set background=light")
 
--- init.luaのあるフォルダを開く
-vim.api.nvim_create_user_command("ConfigNvim", function()
-	local nvim_config_dir = nil
-	-- windowsの場合
-	if vim.fn.has("win64") == 1 then
-		nvim_config_dir = "~/AppData/Local/nvim/"
-	-- linuxの場合
-	elseif vim.fn.has("linux") == 1 then
-		nvim_config_dir = "~/.config/nvim/"
-	end
-	vim.cmd("e " .. nvim_config_dir)
-end, {})
-
 -- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
 if vim.fn.has("win64") == 1 then
-	-- vim.opt.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
-	-- vim.opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command'
 	vim.opt.shell = "pwsh"
 	vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
 	vim.opt.shellquote = ""
 	vim.opt.shellxquote = ""
 end
-
--- 環境ごとの変数を読みこむ
-local config_path = vim.fn.stdpath("config")
-local config_local_path = config_path .. "/lua/config_local.lua"
-local env_config = nil
-
-if vim.fn.filereadable(config_local_path) == 1 then
-	env_config = require("config_local")
-	-- メモ用ディレクトリを開く
-	if env_config.mynote_dir then
-		vim.api.nvim_create_user_command("Mynote", function()
-			vim.cmd("e " .. env_config.mynote_dir)
-		end, {})
-	end
-
-	-- デイリーノートを開く
-	if env_config.daily_note_dir then
-		vim.api.nvim_create_user_command("DailyNote", function()
-			local today = os.date("%Y-%m-%d")
-			vim.cmd("e " .. env_config.daily_note_dir .. "daily_note_" .. today .. ".md")
-		end, {})
-	end
-
-	-- untitled ファイルを開く
-	if env_config.untitled_note_dir then
-		vim.api.nvim_create_user_command("Untitled", function()
-			local now = os.date("!%Y%m%dT%H%M%SZ", os.time())
-			vim.cmd("e " .. env_config.untitled_note_dir .. "untitled_" .. now .. ".md")
-		end, {})
-	end
-end
-
-print("read init.lua!!!")

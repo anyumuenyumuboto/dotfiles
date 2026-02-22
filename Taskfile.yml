@@ -6,3 +6,9 @@ tasks:
   install_tools:
     cmds:
       - winget import --import-file my_windows_packages.json
+      - choco install font-hackgen
+      - choco install font-hackgen-nerd
+      - choco install stylua
+  install_chocolatey:
+    cmds:
+      - Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
