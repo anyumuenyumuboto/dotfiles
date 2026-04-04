@@ -28,6 +28,23 @@ require("lazy").setup({
 		-- add your plugins here
 		-- nvim v0.8.0
 		{
+			"romgrk/barbar.nvim",
+			dependencies = {
+				"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+				"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+			},
+			init = function()
+				vim.g.barbar_auto_setup = false
+			end,
+			opts = {
+				-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+				-- animation = true,
+				-- insert_at_start = true,
+				-- …etc.
+			},
+			version = "^1.0.0", -- optional: only update when a new 1.x version is released
+		},
+		{
 			"nvim-lualine/lualine.nvim",
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			opts = {
@@ -305,3 +322,15 @@ if vim.fn.has("win64") == 1 then
 	vim.opt.shellquote = ""
 	vim.opt.shellxquote = ""
 end
+
+
+-- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Move to previous/next
+map('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts)
+map('n', '<A-.>', '<Cmd>BufferNext<CR>', opts)
+
+-- Close buffer
+map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
