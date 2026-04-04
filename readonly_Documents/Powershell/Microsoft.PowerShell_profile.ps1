@@ -58,3 +58,15 @@ function Format-PSScript {
     $formattedCode | Out-File -FilePath $Path -Encoding UTF8
     Write-Output "Formatted: $Path"
 }
+
+# [Quick Start | Yazi](https://yazi-rs.github.io/docs/quick-start/#shell-wrapper)
+# Yazi 終了時にカレントディレクトリを変更できる、このシェルラッパー yaz の使用を推奨します。
+function yaz {
+	$tmp = (New-TemporaryFile).FullName
+	yazi.exe $args --cwd-file="$tmp"
+	$cwd = Get-Content -Path $tmp -Encoding UTF8
+	if ($cwd -and $cwd -ne $PWD.Path -and (Test-Path -LiteralPath $cwd -PathType Container)) {
+		Set-Location -LiteralPath (Resolve-Path -LiteralPath $cwd).Path
+	}
+	Remove-Item -Path $tmp
+}

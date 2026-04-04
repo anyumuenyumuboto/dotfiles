@@ -9,6 +9,21 @@ tasks:
       - choco install font-hackgen
       - choco install font-hackgen-nerd
       - choco install stylua
+  install_yazi:
+    # [Yazi](https://yazi-rs.github.io/)
+    # [Yazi のインストールと設定方法 | ブログ | 株式会社ネビュラソフト](https://www.nebulasoft.co.jp/blog/yazi-install-and-config/)
+    cmds:
+      - winget install sxyazi.yazi
+      # Install the optional dependencies (recommended):
+      - winget install Gyan.FFmpeg 7zip.7zip jqlang.jq oschwartz10612.Poppler sharkdp.fd BurntSushi.ripgrep.MSVC junegunn.fzf ajeetdsouza.zoxide ImageMagick.ImageMagick
+      - scope install resvg
+      - [system.Environment]::SetEnvironmentVariable('YAZI_FILE_ONE', 'C:\Program Files\Git\usr\bin\file.exe', 'User')
+
   install_chocolatey:
     cmds:
       - Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+  install_scoop:
+    # [Scoop](https://scoop.sh/)
+    cmds:
+      - Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+      - Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
