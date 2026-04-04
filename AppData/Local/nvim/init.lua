@@ -26,6 +26,85 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		-- nvim v0.8.0
+		{
+			"nvim-lualine/lualine.nvim",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				options = {
+					icons_enabled = true,
+					theme = "auto",
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						statusline = {},
+						winbar = {},
+					},
+					ignore_focus = {},
+					always_divide_middle = true,
+					always_show_tabline = true,
+					globalstatus = false,
+					refresh = {
+						statusline = 1000,
+						tabline = 1000,
+						winbar = 1000,
+						refresh_time = 16, -- ~60fps
+						events = {
+							"WinEnter",
+							"BufEnter",
+							"BufWritePost",
+							"SessionLoadPost",
+							"FileChangedShellPost",
+							"VimResized",
+							"Filetype",
+							"CursorMoved",
+							"CursorMovedI",
+							"ModeChanged",
+						},
+					},
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { "filename" },
+					lualine_x = { "encoding", "fileformat", "filetype" },
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {},
+			},
+		},
+		{
+			"kdheepak/lazygit.nvim",
+			lazy = true,
+			cmd = {
+				"LazyGit",
+				"LazyGitConfig",
+				"LazyGitCurrentFile",
+				"LazyGitFilter",
+				"LazyGitFilterCurrentFile",
+			},
+			-- optional for floating window border decoration
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+			},
+			-- setting the keybinding for LazyGit with 'keys' is recommended in
+			-- order to load the plugin when the command is run for the first time
+			keys = {
+				{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+			},
+		},
 		{
 			"nvim-treesitter/nvim-treesitter",
 			lazy = false,
