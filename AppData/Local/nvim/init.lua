@@ -134,7 +134,20 @@ require("lazy").setup({
 			--     "saghen/blink.cmp"
 			-- },
 		},
-		{ "lewis6991/gitsigns.nvim" },
+		{
+			"lewis6991/gitsigns.nvim",
+			opts = {
+				on_attach = function(bufnr)
+					-- ノーマルモードで適用
+					vim.keymap.set("n", "]c", function()
+						require("gitsigns").next_hunk()
+					end, { desc = "Next Git hunk" })
+					vim.keymap.set("n", "[c", function()
+						require("gitsigns").prev_hunk()
+					end, { desc = "Previous Git hunk" })
+				end,
+			},
+		},
 
 		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
