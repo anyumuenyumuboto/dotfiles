@@ -323,7 +323,6 @@ if vim.fn.has("win64") == 1 then
 	vim.opt.shellxquote = ""
 end
 
-
 -- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
@@ -334,3 +333,11 @@ map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
 
 -- Close buffer
 map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+
+-- ヤンク範囲が一瞬ハイライトされるようにする
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
