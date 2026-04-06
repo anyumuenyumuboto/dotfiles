@@ -1,0 +1,123 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": 
+    [
+        {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "auto",
+                "splitMode": "duplicate"
+            },
+            "id": "User.splitPane.A6751878"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
+        }
+    ],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "keybindings": 
+    [
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+w"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        }
+    ],
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "colorScheme": "iceberg-light",
+	    "font": {
+                "face": "HackGen Console NF"
+            }
+        },
+        "list": 
+        [
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{d8e96812-b789-5068-a5ae-10b2fb53e95f}",
+                "hidden": false,
+                "name": "Ubuntu 24.04.1 LTS",
+                "source": "CanonicalGroupLimited.Ubuntu24.04LTS_79rhkp1fndgsc"
+            },
+            {
+                "guid": "{3d753662-6224-5861-b247-e080ec5e7aaf}",
+                "hidden": false,
+                "name": "NixOS",
+                "source": "Microsoft.WSL"
+            }
+        ]
+    },
+    "schemes": 
+    [
+        {
+            "background": "#E8E9EC",
+            "black": "#DCDFE7",
+            "blue": "#2D539E",
+            "brightBlack": "#8389A3",
+            "brightBlue": "#22478E",
+            "brightCyan": "#327698",
+            "brightGreen": "#598030",
+            "brightPurple": "#6845AD",
+            "brightRed": "#CC3768",
+            "brightWhite": "#262A3F",
+            "brightYellow": "#B6662D",
+            "cursorColor": "#33374C",
+            "cyan": "#3F83A6",
+            "foreground": "#33374C",
+            "green": "#668E3D",
+            "name": "iceberg-light",
+            "purple": "#7759B4",
+            "red": "#CC517A",
+            "selectionBackground": "#33374C",
+            "white": "#33374C",
+            "yellow": "#C57339"
+        }
+    ],
+    "theme": "light",
+    "themes": []
+}

@@ -26,26 +26,146 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		-- nvim v0.8.0
 		{
-			"glepnir/template.nvim",
-			cmd = { "Template", "TemProject" },
+			"romgrk/barbar.nvim",
+			dependencies = {
+				"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
+				"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+			},
+			init = function()
+				vim.g.barbar_auto_setup = false
+			end,
+			opts = {
+				-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+				-- animation = true,
+				-- insert_at_start = true,
+				-- …etc.
+			},
+			version = "^1.0.0", -- optional: only update when a new 1.x version is released
+		},
+		{
+			"nvim-lualine/lualine.nvim",
+			dependencies = { "nvim-tree/nvim-web-devicons" },
+			opts = {
+				options = {
+					icons_enabled = true,
+					theme = "auto",
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						statusline = {},
+						winbar = {},
+					},
+					ignore_focus = {},
+					always_divide_middle = true,
+					always_show_tabline = true,
+					globalstatus = false,
+					refresh = {
+						statusline = 1000,
+						tabline = 1000,
+						winbar = 1000,
+						refresh_time = 16, -- ~60fps
+						events = {
+							"WinEnter",
+							"BufEnter",
+							"BufWritePost",
+							"SessionLoadPost",
+							"FileChangedShellPost",
+							"VimResized",
+							"Filetype",
+							"CursorMoved",
+							"CursorMovedI",
+							"ModeChanged",
+						},
+					},
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { "filename" },
+					lualine_x = { "encoding", "fileformat", "filetype" },
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {},
+			},
+		},
+		{
+			"kdheepak/lazygit.nvim",
+			lazy = true,
+			cmd = {
+				"LazyGit",
+				"LazyGitConfig",
+				"LazyGitCurrentFile",
+				"LazyGitFilter",
+				"LazyGitFilterCurrentFile",
+			},
+			-- optional for floating window border decoration
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+			},
+			-- setting the keybinding for LazyGit with 'keys' is recommended in
+			-- order to load the plugin when the command is run for the first time
+			keys = {
+				{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+			},
+		},
+		{
+			"nvim-treesitter/nvim-treesitter",
+			lazy = false,
+			build = ":TSUpdate",
+		},
+		{
+			"A7Lavinraj/fyler.nvim",
+			dependencies = { "nvim-mini/mini.icons" },
+			lazy = false, -- Necessary for `default_explorer` to work properly
+			opts = {},
+		},
+		{ "machakann/vim-sandwich" },
+		{
+			"nacro90/numb.nvim",
 			config = function()
-				require("template").setup({
-					-- config in there
-					temp_dir = vim.fn.stdpath("config") .. "/templates", -- Neovimの設定フォルダ内に templates ディレクトリを作成
-					remove_trailing_spaces = false, -- 余分な空白削除を無効化（エラー回避）
-					update_on_save = true, -- 保存時にテンプレートの更新を許可
-				})
+				require("numb").setup()
 			end,
 		},
-		-- {
-		-- 	"ksudate/prev-md.vim",
-		-- 	config = function()
-		-- 		vim.g.prev_md_preview_location = "right"
-		-- 		vim.g.prev_md_preview_width = 80
-		-- 		vim.keymap.set("n", "<leader>mp", "<cmd>PrevMDToggle<cr>", { desc = "Toggle Markdown Preview" })
-		-- 	end,
-		-- },
+
+		{
+			"OXY2DEV/markview.nvim",
+			lazy = false,
+
+			-- For blink.cmp's completion
+			-- source
+			-- dependencies = {
+			--     "saghen/blink.cmp"
+			-- },
+		},
+		{
+			"lewis6991/gitsigns.nvim",
+			opts = {
+				on_attach = function(bufnr)
+					-- ノーマルモードで適用
+					vim.keymap.set("n", "]c", function()
+						require("gitsigns").next_hunk()
+					end, { desc = "Next Git hunk" })
+					vim.keymap.set("n", "[c", function()
+						require("gitsigns").prev_hunk()
+					end, { desc = "Previous Git hunk" })
+				end,
+			},
+		},
+
 		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
 			"vim-skk/eskk.vim",
@@ -54,22 +174,12 @@ require("lazy").setup({
 					{ path = "~/AppData/Local/nvim/SKK-JISYO.L", sorted = 1, encoding = "euc-jp" }
 			end,
 		},
-		{ "aklt/plantuml-syntax" },
 		{ "neovim/nvim-lspconfig" },
 		{ "cocopon/iceberg.vim" },
-		{
-			"MeanderingProgrammer/render-markdown.nvim",
-			dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-			-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-			---@module 'render-markdown'
-			-- -@type render.md.UserConfig
-			opts = {},
-		},
-		{ "tyru/open-browser.vim" },
-		-- { "previm/previm" },
+		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		{
 			"brianhuster/live-preview.nvim",
+			ft = { "markdown" },
 			dependencies = {
 				-- You can choose one of the following pickers
 				"nvim-telescope/telescope.nvim",
@@ -93,106 +203,41 @@ require("lazy").setup({
 				-- fill any relevant options here
 			},
 		},
-		{ "mfussenegger/nvim-dap" },
-		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
-		{ "theHamsta/nvim-dap-virtual-text" },
 		{
-			"NeogitOrg/neogit",
-			dependencies = {
-				"nvim-lua/plenary.nvim", -- required
-				"sindrets/diffview.nvim", -- optional - Diff integration
-
-				-- Only one of these is needed.
-				"nvim-telescope/telescope.nvim", -- optional
-				"ibhagwan/fzf-lua", -- optional
-				"echasnovski/mini.pick", -- optional
-				"folke/snacks.nvim", -- optional
+			-- support for image pasting
+			"HakonHarnes/img-clip.nvim",
+			event = "VeryLazy",
+			opts = {
+				-- recommended settings
+				default = {
+					embed_image_as_base64 = false,
+					prompt_for_file_name = false,
+					drag_and_drop = {
+						insert_mode = true,
+					},
+					-- required for Windows users
+					use_absolute_path = true,
+				},
 			},
 		},
 		{
-			"yetone/avante.nvim",
-			-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-			-- ⚠️ must add this setting! ! !
-			build = function()
-				-- conditionally use the correct build system for the current OS
-				if vim.fn.has("win32") == 1 then
-					return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-				else
-					return "make"
-				end
+			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			-- branch = "develop",
+			config = function()
+				require("autofilename").setup({
+					-- Set your options here
+					-- Example:
+					-- extension = ".txt",
+					-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
+					-- lang = "en", -- 'en', 'ja', 'zh-CN'
+					ai_server_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+					ai_api_key = vim.env.API_KEY,
+				})
 			end,
-			event = "VeryLazy",
-			version = false, -- Never set this value to "*"! Never!
-			---@module 'avante'
-			---@type avante.Config
-			opts = {
-				-- add any opts here
-				-- for example
-				-- provider = "claude",
-				provider = "gemini",
-				-- providers = {
-				--   claude = {
-				--     endpoint = "https://api.anthropic.com",
-				--     model = "claude-sonnet-4-20250514",
-				--     timeout = 30000, -- Timeout in milliseconds
-				--       extra_request_body = {
-				--         temperature = 0.75,
-				--         max_tokens = 20480,
-				--       },
-				--   },
-				-- },
-			},
-			dependencies = {
-				"nvim-lua/plenary.nvim",
-				"MunifTanjim/nui.nvim",
-				--- The below dependencies are optional,
-				"echasnovski/mini.pick", -- for file_selector provider mini.pick
-				"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-				"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-				"ibhagwan/fzf-lua", -- for file_selector provider fzf
-				"stevearc/dressing.nvim", -- for input provider dressing
-				"folke/snacks.nvim", -- for input provider snacks
-				"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-				"zbirenbaum/copilot.lua", -- for providers='copilot'
-				{
-					-- support for image pasting
-					"HakonHarnes/img-clip.nvim",
-					event = "VeryLazy",
-					opts = {
-						-- recommended settings
-						default = {
-							embed_image_as_base64 = false,
-							prompt_for_file_name = false,
-							drag_and_drop = {
-								insert_mode = true,
-							},
-							-- required for Windows users
-							use_absolute_path = true,
-						},
-					},
-				},
-				{
-					-- Make sure to set this up properly if you have lazy=true
-					"MeanderingProgrammer/render-markdown.nvim",
-					opts = {
-						file_types = { "markdown", "Avante" },
-					},
-					ft = { "markdown", "Avante" },
-				},
-				{
-					"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
-					config = function()
-						require("autofilename").setup({
-							-- Set your options here
-							-- Example:
-							-- extension = ".txt",
-							-- filename_format = "{{strftime:%Y-%m-%d}}_{{first_line}}",
-							-- lang = "en", -- 'en', 'ja', 'zh-CN'
-						})
-					end,
-				},
+		},
 		{
 			"voldikss/vim-translator",
+			event = "VeryLazy",
 			config = function()
 				vim.g.translator_target_lang = "ja"
 				vim.g.translator_default_engines = { "google" }
@@ -204,6 +249,7 @@ require("lazy").setup({
 		},
 		{
 			"potamides/pantran.nvim",
+			event = "VeryLazy",
 			config = function()
 				require("pantran").setup({
 					default_engine = "google",
@@ -223,8 +269,6 @@ require("lazy").setup({
 				})
 			end,
 		},
-			},
-		},
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -234,21 +278,19 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
--- lazydev.nvim を使用して、nvim-dap-ui の型チェックを有効にして取得する
--- [rcarriga/nvim-dap-ui: A UI for nvim-dap](https://github.com/rcarriga/nvim-dap-ui)
--- require("lazydev").setup({
---   library = { "nvim-dap-ui" },
--- })
-
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
--- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls)
+-- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
 -- Lua Language Server を有効化
 vim.lsp.enable("lua_ls")
 -- TypeScript Language Server を有効化
--- vim.lsp.enable("ts_ls")
+vim.lsp.enable("ts_ls")
 -- Haskell Language Server を有効化
--- vim.lsp.enable("hls")
+vim.lsp.enable("hls")
+-- Purescript Language Server を有効化
+vim.lsp.enable("purescriptls")
+-- rust-analyzer (aka rls 2.0), a language server for Rust
+vim.lsp.enable("rust_analyzer")
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)
@@ -273,58 +315,29 @@ vim.cmd("colorscheme iceberg")
 -- 背景色を設定する
 vim.cmd("set background=light")
 
--- init.luaのあるフォルダを開く
-vim.api.nvim_create_user_command("ConfigNvim", function()
-	local nvim_config_dir = nil
-	-- windowsの場合
-	if vim.fn.has("win64") == 1 then
-		nvim_config_dir = "~/AppData/Local/nvim/"
-	-- linuxの場合
-	elseif vim.fn.has("linux") == 1 then
-		nvim_config_dir = "~/.config/nvim/"
-	end
-	vim.cmd("e " .. nvim_config_dir)
-end, {})
-
 -- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
 if vim.fn.has("win64") == 1 then
-	-- vim.opt.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
-	-- vim.opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command'
 	vim.opt.shell = "pwsh"
 	vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
 	vim.opt.shellquote = ""
 	vim.opt.shellxquote = ""
 end
 
--- 環境ごとの変数を読みこむ
-local config_path = vim.fn.stdpath("config")
-local config_local_path = config_path .. "/lua/config_local.lua"
-local env_config = nil
+-- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
 
-if vim.fn.filereadable(config_local_path) == 1 then
-	env_config = require("config_local")
-	-- メモ用ディレクトリを開く
-	if env_config.mynote_dir then
-		vim.api.nvim_create_user_command("Mynote", function()
-			vim.cmd("e " .. env_config.mynote_dir)
-		end, {})
-	end
+-- Move to previous/next
+map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
+map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
 
-	-- デイリーノートを開く
-	if env_config.daily_note_dir then
-		vim.api.nvim_create_user_command("DailyNote", function()
-			local today = os.date("%Y-%m-%d")
-			vim.cmd("e " .. env_config.daily_note_dir .. "daily_note_" .. today .. ".md")
-		end, {})
-	end
+-- Close buffer
+map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 
-	-- untitled ファイルを開く
-	if env_config.untitled_note_dir then
-		vim.api.nvim_create_user_command("Untitled", function()
-			local now = os.date("!%Y%m%dT%H%M%SZ", os.time())
-			vim.cmd("e " .. env_config.untitled_note_dir .. "untitled_" .. now .. ".md")
-		end, {})
-	end
-end
-
-print("read init.lua!!!")
+-- ヤンク範囲が一瞬ハイライトされるようにする
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
