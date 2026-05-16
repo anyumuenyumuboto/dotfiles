@@ -291,6 +291,8 @@ vim.lsp.enable("hls")
 vim.lsp.enable("purescriptls")
 -- rust-analyzer (aka rls 2.0), a language server for Rust
 vim.lsp.enable("rust_analyzer")
+-- Nushell built-in language server を有効化
+vim.lsp.enable("nushell")
 
 -- WSL環境でのみクリップボード設定を有効にする
 -- ref [WSL×NeoVim(init.lua) クリップボードにコピーできるようにする方法 #neovim - Qiita](https://qiita.com/hwatahik/items/32279372ea7182d75677)
