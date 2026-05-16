@@ -26,9 +26,11 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
 		-- nvim v0.8.0
 		{
 			"romgrk/barbar.nvim",
+			enabled = not vim.g.started_by_firenvim, -- Firenvim環境では無効化
 			dependencies = {
 				"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
 				"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
@@ -46,6 +48,7 @@ require("lazy").setup({
 		},
 		{
 			"nvim-lualine/lualine.nvim",
+			enabled = not vim.g.started_by_firenvim, -- Firenvim環境では無効化
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			opts = {
 				options = {
@@ -329,6 +332,23 @@ end
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
+-- [glacambre/firenvim: Embed Neovim in Chrome, Firefox & others.](https://github.com/glacambre/firenvim)
+-- [生成AI時代だからこそ、Vim as an IME](https://zenn.dev/dog/articles/vim-as-an-ime#firenvim-%E3%82%92%E4%BD%BF%E3%81%86%E4%B8%8A%E3%81%A7%E3%81%AE-tips)
+if vim.g.started_by_firenvim == true then
+	-- 一般的なウェブ入力欄に近づける設定
+	vim.opt.signcolumn = "no"
+	vim.opt.laststatus = 0
+	vim.opt.background = "light"
+	vim.opt.cursorline = false
+	vim.opt.number = false
+	vim.opt.fillchars:append({ eob = " " })
+	-- 必要に応じてカラースキームやStatuslineも調整
+	vim.cmd.colorscheme("shine") -- 例: シンプルなテーマに変更
+	-- vim.g.ministatusline_disable = true -- 例: mini.nvimのステータスラインを無効化
+	-- 保存メッセージを非表示にする
+	map("n", ":w<CR>", ":silent! write<CR>", opts)
+end
+
 -- Move to previous/next
 map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts)
 map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts)
@@ -338,8 +358,8 @@ map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 
 -- ヤンク範囲が一瞬ハイライトされるようにする
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+	group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
