@@ -30,6 +30,7 @@ require("lazy").setup({
 		-- nvim v0.8.0
 		{
 			"romgrk/barbar.nvim",
+			event = "VeryLazy",
 			enabled = not vim.g.started_by_firenvim, -- Firenvim環境では無効化
 			dependencies = {
 				"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
@@ -48,6 +49,7 @@ require("lazy").setup({
 		},
 		{
 			"nvim-lualine/lualine.nvim",
+			event = "VeryLazy",
 			enabled = not vim.g.started_by_firenvim, -- Firenvim環境では無効化
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			opts = {
@@ -136,9 +138,10 @@ require("lazy").setup({
 			lazy = false, -- Necessary for `default_explorer` to work properly
 			opts = {},
 		},
-		{ "machakann/vim-sandwich" },
+		{ "machakann/vim-sandwich", event = "VeryLazy" },
 		{
 			"nacro90/numb.nvim",
+			event = "VeryLazy",
 			config = function()
 				require("numb").setup()
 			end,
@@ -156,6 +159,7 @@ require("lazy").setup({
 		},
 		{
 			"lewis6991/gitsigns.nvim",
+			event = "VeryLazy",
 			opts = {
 				on_attach = function(bufnr)
 					-- ノーマルモードで適用
@@ -172,12 +176,13 @@ require("lazy").setup({
 		-- ref [Neovimにeskk.vimをインストールする](https://zenn.dev/laddge/articles/9f12f362171159)
 		{
 			"vim-skk/eskk.vim",
+			event = "VeryLazy",
 			config = function()
 				vim.g["eskk#large_dictionary"] =
 					{ path = "~/AppData/Local/nvim/SKK-JISYO.L", sorted = 1, encoding = "euc-jp" }
 			end,
 		},
-		{ "neovim/nvim-lspconfig" },
+		{ "neovim/nvim-lspconfig", event = "VeryLazy" },
 		{ "cocopon/iceberg.vim" },
 		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		{
@@ -225,6 +230,7 @@ require("lazy").setup({
 		},
 		{
 			"anyumuenyumuboto/auto-file-name.nvim", -- Replace with your actual GitHub repository path
+			event = "VeryLazy",
 			-- branch = "develop",
 			config = function()
 				require("autofilename").setup({
