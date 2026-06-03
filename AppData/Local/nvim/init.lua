@@ -135,7 +135,11 @@ require("lazy").setup({
 		{
 			"A7Lavinraj/fyler.nvim",
 			dependencies = { "nvim-mini/mini.icons" },
-			lazy = false, -- Necessary for `default_explorer` to work properly
+			-- lazy = false, -- Necessary for `default_explorer` to work properly
+			lazy = true,
+			cmd = {
+				"Fyler",
+			},
 			opts = {},
 		},
 		{ "machakann/vim-sandwich", event = "VeryLazy" },
