@@ -13,7 +13,7 @@ tasks:
       - choco install font-hackgen
       - choco install font-hackgen-nerd
       # [Yazi](https://yazi-rs.github.io/) にてgit bashのfileコマンドを使用できるように、環境変数を設定
-      - [system.Environment]::SetEnvironmentVariable('YAZI_FILE_ONE', 'C:\Program Files\Git\usr\bin\file.exe', 'User')
+      - [system.Environment]::SetEnvironmentVariable('YAZI_FILE_ONE', '%USERPROFILE%\scoop\apps\git\current\usr\bin\file.exe', 'User')
 
   install_chocolatey:
     cmds:
