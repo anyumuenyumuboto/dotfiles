@@ -1,25 +1,26 @@
 # https://taskfile.dev
-
 version: '3'
-
 tasks:
+  format_dotfiles:
+    cmds:
+      - yamlfmt .
+      - stylua .
   export_scoop_list_installed:
     cmds:
       - scoop export > my-scoop-packages.json
-
   install_tools:
     cmds:
-      - scoop install my-scoop-packages.json
-      - choco install font-hackgen
-      - choco install font-hackgen-nerd
+      # - scoop install my-scoop-packages.json
+      # - choco install font-hackgen
+      # - choco install font-hackgen-nerd
       # [Yazi](https://yazi-rs.github.io/) にてgit bashのfileコマンドを使用できるように、環境変数を設定
-      - [system.Environment]::SetEnvironmentVariable('YAZI_FILE_ONE', '%USERPROFILE%\scoop\apps\git\current\usr\bin\file.exe', 'User')
-
+      - powershell -Command "[System.Environment]::SetEnvironmentVariable('YAZI_FILE_ONE', '$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe', 'User')"
   install_chocolatey:
     cmds:
       - Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
   install_scoop:
     # [Scoop](https://scoop.sh/)
+    # powershell上で実行すること
     cmds:
       - Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
       - Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression

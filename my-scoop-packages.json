@@ -1,228 +1,242 @@
 {
-    "apps": [
-        {
-            "Source": "main",
-            "Version": "26.01",
-            "Name": "7zip",
-            "Updated": "2026-04-29T16:54:22.8805806+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "0.17.0",
-            "Name": "alacritty",
-            "Updated": "2026-06-03T20:14:17.7965455+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "2.0.26",
-            "Name": "autohotkey",
-            "Updated": "2026-06-06T18:19:27.3036991+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.70.5",
-            "Name": "chezmoi",
-            "Updated": "2026-06-06T17:44:40.3675576+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "10.4.2",
-            "Name": "fd",
-            "Updated": "2026-04-29T20:03:55.2072616+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "8.1",
-            "Name": "ffmpeg",
-            "Updated": "2026-04-29T20:03:30.5457215+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.72.0",
-            "Name": "fzf",
-            "Updated": "2026-04-29T20:04:00.7806107+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.93.0",
-            "Name": "gh",
-            "Updated": "2026-06-06T21:38:03.1045324+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.54.0",
-            "Name": "git",
-            "Updated": "2026-06-06T21:38:40.3188611+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "8.30.1",
-            "Name": "gitleaks",
-            "Updated": "2026-06-06T16:38:01.0649978+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "7.1.2-21",
-            "Name": "imagemagick",
-            "Updated": "2026-04-29T20:04:41.7544446+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.67.8",
-            "Name": "innounp",
-            "Updated": "2026-04-29T20:04:02.8052548+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.40.0",
-            "Name": "jj",
-            "Updated": "2026-05-01T22:05:02.3870956+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.8.1",
-            "Name": "jq",
-            "Updated": "2026-04-29T20:03:32.3738023+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "2.7.12",
-            "Name": "keepassxc",
-            "Updated": "2026-06-06T21:09:12.6483781+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "0.62.2",
-            "Name": "lazygit",
-            "Updated": "2026-06-06T18:11:46.9574621+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.1.9",
-            "Name": "lefthook",
-            "Updated": "2026-06-06T16:18:28.0451461+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "3.0.5",
-            "Name": "musikcube",
-            "Updated": "2026-06-06T18:38:43.5276844+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.12.2",
-            "Name": "neovim",
-            "Updated": "2026-06-06T17:30:31.0284964+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "extras",
-            "Version": "3.22.1",
-            "Name": "nomacs",
-            "Updated": "2026-06-06T18:18:04.2379225+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.113.1",
-            "Name": "nu",
-            "Updated": "2026-06-06T17:31:13.8281229+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.30.6",
-            "Name": "ollama",
-            "Updated": "2026-06-06T20:57:28.2028759+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "25.12.0-0",
-            "Name": "poppler",
-            "Updated": "2026-04-29T20:03:53.0564297+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.47.0",
-            "Name": "resvg",
-            "Updated": "2026-04-04T16:59:03.7433608+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "15.1.0",
-            "Name": "ripgrep",
-            "Updated": "2026-04-29T20:03:58.0170507+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "1.25.1",
-            "Name": "starship",
-            "Updated": "2026-06-06T17:44:49.9279051+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "2.5.2",
-            "Name": "stylua",
-            "Updated": "2026-06-06T20:07:12.7060391+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "3.51.1",
-            "Name": "task",
-            "Updated": "2026-06-06T18:12:06.7729828+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "26.1.22",
-            "Name": "yazi",
-            "Updated": "2026-04-29T19:59:37.0954593+09:00",
-            "Info": ""
-        },
-        {
-            "Source": "main",
-            "Version": "0.9.9",
-            "Name": "zoxide",
-            "Updated": "2026-04-29T20:04:01.785171+09:00",
-            "Info": ""
-        }
-    ],
     "buckets": [
         {
             "Name": "main",
             "Source": "https://github.com/ScoopInstaller/Main.git",
-            "Updated": "2026-06-06T18:12:35+09:00",
-            "Manifests": 1566
+            "Updated": "2026-06-07T17:12:37+09:00",
+            "Manifests": 1568
         },
         {
             "Name": "extras",
             "Source": "https://github.com/ScoopInstaller/Extras",
-            "Updated": "2026-06-06T18:11:17+09:00",
+            "Updated": "2026-06-07T14:53:01+09:00",
             "Manifests": 2300
+        }
+    ],
+    "apps": [
+        {
+            "Updated": "2026-04-29T16:54:22.8805806+09:00",
+            "Name": "7zip",
+            "Source": "main",
+            "Version": "26.01",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-03T20:14:17.7965455+09:00",
+            "Name": "alacritty",
+            "Source": "extras",
+            "Version": "0.17.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T18:19:27.3036991+09:00",
+            "Name": "autohotkey",
+            "Source": "extras",
+            "Version": "2.0.26",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T15:51:33.3915182+09:00",
+            "Name": "carapace-bin",
+            "Source": "extras",
+            "Version": "1.7.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T17:44:40.3675576+09:00",
+            "Name": "chezmoi",
+            "Source": "main",
+            "Version": "2.70.5",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-04-29T20:03:55.2072616+09:00",
+            "Name": "fd",
+            "Source": "main",
+            "Version": "10.4.2",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:36.6157809+09:00",
+            "Name": "ffmpeg",
+            "Source": "main",
+            "Version": "8.1.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:38.3195995+09:00",
+            "Name": "fzf",
+            "Source": "main",
+            "Version": "0.73.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T21:38:03.1045324+09:00",
+            "Name": "gh",
+            "Source": "main",
+            "Version": "2.93.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T21:38:40.3188611+09:00",
+            "Name": "git",
+            "Source": "main",
+            "Version": "2.54.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T16:38:01.0649978+09:00",
+            "Name": "gitleaks",
+            "Source": "main",
+            "Version": "8.30.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:49.5899555+09:00",
+            "Name": "imagemagick",
+            "Source": "main",
+            "Version": "7.1.2-25",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:50.6936231+09:00",
+            "Name": "innounp",
+            "Source": "main",
+            "Version": "2.67.9",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:53.6794319+09:00",
+            "Name": "jj",
+            "Source": "main",
+            "Version": "0.42.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-04-29T20:03:32.3738023+09:00",
+            "Name": "jq",
+            "Source": "main",
+            "Version": "1.8.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T21:09:12.6483781+09:00",
+            "Name": "keepassxc",
+            "Source": "extras",
+            "Version": "2.7.12",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T18:11:46.9574621+09:00",
+            "Name": "lazygit",
+            "Source": "extras",
+            "Version": "0.62.2",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T16:18:28.0451461+09:00",
+            "Name": "lefthook",
+            "Source": "main",
+            "Version": "2.1.9",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T18:38:43.5276844+09:00",
+            "Name": "musikcube",
+            "Source": "extras",
+            "Version": "3.0.5",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T17:30:31.0284964+09:00",
+            "Name": "neovim",
+            "Source": "main",
+            "Version": "0.12.2",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T18:18:04.2379225+09:00",
+            "Name": "nomacs",
+            "Source": "extras",
+            "Version": "3.22.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T17:31:13.8281229+09:00",
+            "Name": "nu",
+            "Source": "main",
+            "Version": "0.113.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T20:57:28.2028759+09:00",
+            "Name": "ollama",
+            "Source": "main",
+            "Version": "0.30.6",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:18:58.7127313+09:00",
+            "Name": "poppler",
+            "Source": "main",
+            "Version": "26.02.0-0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-04-04T16:59:03.7433608+09:00",
+            "Name": "resvg",
+            "Source": "main",
+            "Version": "0.47.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-04-29T20:03:58.0170507+09:00",
+            "Name": "ripgrep",
+            "Source": "main",
+            "Version": "15.1.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T17:44:49.9279051+09:00",
+            "Name": "starship",
+            "Source": "main",
+            "Version": "1.25.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T20:07:12.7060391+09:00",
+            "Name": "stylua",
+            "Source": "main",
+            "Version": "2.5.2",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-06T18:12:06.7729828+09:00",
+            "Name": "task",
+            "Source": "main",
+            "Version": "3.51.1",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T16:19:31.2919398+09:00",
+            "Name": "yamlfmt",
+            "Source": "main",
+            "Version": "0.21.0",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-06-07T17:19:02.5452108+09:00",
+            "Name": "yazi",
+            "Source": "main",
+            "Version": "26.5.6",
+            "Info": ""
+        },
+        {
+            "Updated": "2026-04-29T20:04:01.785171+09:00",
+            "Name": "zoxide",
+            "Source": "main",
+            "Version": "0.9.9",
+            "Info": ""
         }
     ]
 }

@@ -18,8 +18,12 @@
 #       run: bundle audit
 #
 pre-commit:
-  parallel: true
+  parallel: false
   jobs:
+    - name: export_scoop_list_installed
+      runner: powershell -Command # Windows環境でのタスク実行を安定させる
+      run: task export_scoop_list_installed
+    - run: git add my-scoop-packages.json
     - name: scan secrets
       run: gitleaks git --staged
 

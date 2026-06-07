@@ -23,3 +23,18 @@ $env.config.edit_mode = "vi"
 # [Starship](https://starship.rs/)
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+# [Quick Start | Yazi](https://yazi-rs.github.io/docs/quick-start#shell-wrapper)
+def --env yaz [...args] {
+	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+	^yazi ...$args --cwd-file $tmp
+	let cwd = (open $tmp)
+	if $cwd != $env.PWD and ($cwd | path exists) {
+		cd $cwd
+	}
+	rm -fp $tmp
+}
+
+# [Setup - carapace-bin](https://carapace-sh.github.io/carapace-bin/setup.html#nushell)
+# ${UserConfigDir}/nushell/config.nu
+source $"($nu.cache-dir)/carapace.nu"
