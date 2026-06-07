@@ -1,6 +1,7 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# A TOML linter such as https://github.com/tombi-toml/tombi can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+#:schema https://yazi-rs.github.io/schemas/yazi.json
 
 [mgr]
 ratio          = [ 1, 4, 3 ]
@@ -14,7 +15,7 @@ linemode       = "none"
 show_hidden    = false
 show_symlink   = true
 scrolloff      = 5
-mouse_events   = [ "click", "scroll" ]
+mouse_events   = [ "click", "scroll", "drag" ]
 
 [preview]
 wrap            = "no"
@@ -29,18 +30,15 @@ ueberzug_scale  = 1
 ueberzug_offset = [ 0, 0, 0, 0 ]
 
 [opener]
-# [yaziのインストール方法と初期設定](https://zenn.dev/kabec_dev/articles/9deed65b6b6519#%E2%96%A0-windows%E3%81%A7%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E9%96%8B%E3%81%8F%E9%9A%9B%E3%81%ABvim(nvim)%E3%82%92%E6%8C%87%E5%AE%9A)
-# windowsでテキストファイルを開く際にvim(nvim)を指定
 edit = [
-	{ run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
+	{ run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
+# windowsでテキストファイルを開く際にvim(nvim)を指定
+# [yaziのインストール方法と初期設定](https://zenn.dev/kabec_dev/articles/9deed65b6b6519#%E2%96%A0-windows%E3%81%A7%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E9%96%8B%E3%81%8F%E9%9A%9B%E3%81%ABvim(nvim)%E3%82%92%E6%8C%87%E5%AE%9A)
 	{ run = 'nvim %*',    block = true, desc = "nvim",           for = "windows" },
 	{ run = 'nvim -w %*', block = true,  desc = "nvim (block)",   for = "windows" },
+	# { run = "code %s",          desc = "code",         for = "windows", orphan = true },
+	# { run = "code -w %s",       desc = "code (block)", for = "windows", block = true },
 ]
-# edit = [
-# 	{ run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
-# 	{ run = "code %s",          desc = "code",         for = "windows", orphan = true },
-# 	{ run = "code -w %s",       desc = "code (block)", for = "windows", block = true },
-# ]
 play = [
 	{ run = "xdg-open %s1",    desc = "Play", for = "linux", orphan = true },
 	{ run = "open %s",         desc = "Play", for = "macos" },
@@ -105,10 +103,10 @@ suppress_preload = false
 
 [plugin]
 fetchers = [
-	# Mimetype
-	{ id = "mime", url = "*/",         run = "mime.dir", prio = "high" },
-	{ id = "mime", url = "local://*",  run = "mime.local", prio = "high" },
-	{ id = "mime", url = "remote://*", run = "mime.remote", prio = "high" },
+	# MIME-type
+	{ url = "*/",         run = "mime.dir",    prio = "high", group = "mime" },
+	{ url = "local://*",  run = "mime.local",  prio = "high", group = "mime" },
+	{ url = "remote://*", run = "mime.remote", prio = "high", group = "mime" },
 ]
 spotters = [
 	# Multi-file
