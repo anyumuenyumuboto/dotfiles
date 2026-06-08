@@ -11,7 +11,7 @@ tasks:
       - scoop export > my-scoop-packages.json
   install_tools:
     cmds:
-      - scoop install my-scoop-packages.json
+      - scoop import my-scoop-packages.json
       - choco install font-hackgen
       - choco install font-hackgen-nerd
   config_tools:
