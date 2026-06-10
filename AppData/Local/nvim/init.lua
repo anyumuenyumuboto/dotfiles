@@ -373,3 +373,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+
+-- NeovideのUI全体スケールを変更する
+vim.g.neovide_scale_factor = 0.8
