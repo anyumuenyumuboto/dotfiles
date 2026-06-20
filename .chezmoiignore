@@ -3,3 +3,5 @@ my-scoop-packages.json
 LICENSE
 
 Taskfile.yml
+.gitignore
+.env
