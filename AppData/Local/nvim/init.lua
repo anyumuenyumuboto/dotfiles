@@ -26,6 +26,15 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		{
+			"noir4y/comment-translate.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+			},
+			config = function()
+				require("comment-translate").setup({})
+			end,
+		},
 		{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
 		-- nvim v0.8.0
 		{
