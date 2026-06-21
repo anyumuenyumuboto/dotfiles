@@ -5,3 +5,5 @@ LICENSE
 Taskfile.yml
 .gitignore
 .env
+
+gitignore/
