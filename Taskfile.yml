@@ -28,7 +28,7 @@ tasks:
       - Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
   oco-llama:
     cmds:
-      - llama-server -m $MY_GGUF_PATH -ngl 0 -rea off --port 8080 -c 4096 -np 1 &
+      - llama-server -m $MY_GGUF_PATH -ngl 0 -rea off --port 8080 -c 2048 -np 1 &
       - |
         echo "Waiting for llama-server to be ready..."
         # 「sleep 1」の代わりに、自分自身に2回ピンを飛ばして約1秒消費させます
