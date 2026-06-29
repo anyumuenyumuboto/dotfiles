@@ -1,5 +1,8 @@
 # https://taskfile.dev
 version: '3'
+
+dotenv: [".env"]
+
 tasks:
   format_dotfiles:
     cmds:
@@ -23,3 +26,13 @@ tasks:
     cmds:
       - Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
       - Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+  oco-llama:
+    cmds:
+      # 2. このタスクが終わったら（成否に関わらず）必ずサーバーを落とすお守り
+      - defer: { cmd: taskkill /F /IM llama-server.exe 2>nul || exit 0 }
+      - llama-server -m $MY_GGUF_PATH -ngl 0 -rea off --port 8080 -c 4096 -np 1 &
+      - |
+        echo "Waiting for llama-server to be ready..."
+        # 「sleep 1」の代わりに、自分自身に2回ピンを飛ばして約1秒消費させます
+        until curl -fs http://localhost:8080/health > /dev/null; do ping 127.0.0.1 -n 2 > /dev/null; done
+      - oco
