@@ -32,7 +32,13 @@ require("lazy").setup({
 				"nvim-lua/plenary.nvim",
 			},
 			config = function()
-				require("comment-translate").setup({})
+				require("comment-translate").setup({
+					hover = {
+						enabled = true,
+						delay = 500,
+						auto = false,
+					},
+				})
 			end,
 		},
 		{ "glacambre/firenvim", build = ":call firenvim#install(0)" },
