@@ -26,6 +26,22 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
+		{ "cocopon/pgmnt.vim", lazy = true },
+		{
+			"cocopon/iceberg.vim",
+			-- dev = true, -- ローカルの開発ディレクトリ (~/projects/iceberg.vim など) を読み込む場合
+			dir = "C:/Users/aebtt/myroot/experience/iceberg.vim",
+		},
+		-- { "cocopon/iceberg.vim" },
+		{
+			"monkoose/neocodeium",
+			event = "VeryLazy",
+			config = function()
+				local neocodeium = require("neocodeium")
+				neocodeium.setup()
+				vim.keymap.set("i", "<A-f>", neocodeium.accept)
+			end,
+		},
 		{
 			"noir4y/comment-translate.nvim",
 			dependencies = {
@@ -202,7 +218,6 @@ require("lazy").setup({
 			end,
 		},
 		{ "neovim/nvim-lspconfig", event = "VeryLazy" },
-		{ "cocopon/iceberg.vim" },
 		{ "tyru/open-browser.vim", event = "VeryLazy" },
 		{
 			"brianhuster/live-preview.nvim",
@@ -309,17 +324,8 @@ require("lazy").setup({
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
 -- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
--- Lua Language Server を有効化
 vim.lsp.enable("lua_ls")
--- TypeScript Language Server を有効化
-vim.lsp.enable("ts_ls")
--- Haskell Language Server を有効化
-vim.lsp.enable("hls")
--- Purescript Language Server を有効化
-vim.lsp.enable("purescriptls")
--- rust-analyzer (aka rls 2.0), a language server for Rust
-vim.lsp.enable("rust_analyzer")
--- Nushell built-in language server を有効化
+vim.lsp.enable("denols")
 vim.lsp.enable("nushell")
 
 -- WSL環境でのみクリップボード設定を有効にする
@@ -346,12 +352,19 @@ vim.cmd("colorscheme iceberg")
 vim.cmd("set background=light")
 
 -- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
-if vim.fn.has("win64") == 1 then
-	vim.opt.shell = "pwsh"
-	vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
-	vim.opt.shellquote = ""
-	vim.opt.shellxquote = ""
-end
+-- if vim.fn.has("win64") == 1 then
+-- 	vim.opt.shell = "pwsh"
+-- 	vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
+-- 	vim.opt.shellquote = ""
+-- 	vim.opt.shellxquote = ""
+-- end
+-- Neovimで、windowsの場合、Exコマンドモードでnushell を使うように設定する
+-- if vim.fn.has("win64") == 1 then
+-- 	vim.opt.shell = "nu"
+-- 	-- vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
+-- 	vim.opt.shellquote = ""
+-- 	vim.opt.shellxquote = ""
+-- end
 
 -- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
 local map = vim.api.nvim_set_keymap
