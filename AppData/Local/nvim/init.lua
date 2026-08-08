@@ -1,3 +1,4 @@
+-- init.lua
 -- ref [🛠️ Installation | lazy.nvim](https://lazy.folke.io/installation)
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -22,19 +23,79 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- Load local_config
+local local_config = {}
+local path = vim.fn.stdpath("config") .. "\\local_config.lua"
+if vim.fn.filereadable(path) == 1 then
+  local ok, mod = pcall(require, "local_config")
+
+  if ok and type(mod) == "table" then
+    local_config = mod
+  else
+    vim.notify(
+      "local_config.lua の読み込みに失敗しました: " .. tostring(mod),
+      vim.log.levels.WARN
+    )
+  end
+end
+
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
 		-- add your plugins here
-		{ "cocopon/pgmnt.vim", lazy = true },
 		{
-			"cocopon/iceberg.vim",
-			-- dev = true, -- ローカルの開発ディレクトリ (~/projects/iceberg.vim など) を読み込む場合
-			dir = "C:/Users/aebtt/myroot/experience/iceberg.vim",
+			"folke/flash.nvim",
+			event = "VeryLazy",
+			---@type Flash.Config
+			opts = {},
+			keys = {
+				{
+					"s",
+					mode = { "n", "x", "o" },
+					function()
+						require("flash").jump()
+					end,
+					desc = "Flash",
+				},
+				{
+					"S",
+					mode = { "n", "x", "o" },
+					function()
+						require("flash").treesitter()
+					end,
+					desc = "Flash Treesitter",
+				},
+				{
+					"r",
+					mode = "o",
+					function()
+						require("flash").remote()
+					end,
+					desc = "Remote Flash",
+				},
+				{
+					"R",
+					mode = { "o", "x" },
+					function()
+						require("flash").treesitter_search()
+					end,
+					desc = "Treesitter Search",
+				},
+				{
+					"<c-s>",
+					mode = { "c" },
+					function()
+						require("flash").toggle()
+					end,
+					desc = "Toggle Flash Search",
+				},
+			},
 		},
-		-- { "cocopon/iceberg.vim" },
+		{ "cocopon/pgmnt.vim", lazy = true },
+		{ "cocopon/iceberg.vim" },
 		{
 			"monkoose/neocodeium",
+   		    enabled = local_config.enable_private_plugins == true,
 			event = "VeryLazy",
 			config = function()
 				local neocodeium = require("neocodeium")
