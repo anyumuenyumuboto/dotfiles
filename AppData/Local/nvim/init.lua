@@ -27,16 +27,13 @@ vim.g.maplocalleader = "\\"
 local local_config = {}
 local path = vim.fn.stdpath("config") .. "\\local_config.lua"
 if vim.fn.filereadable(path) == 1 then
-  local ok, mod = pcall(require, "local_config")
+	local ok, mod = pcall(require, "local_config")
 
-  if ok and type(mod) == "table" then
-    local_config = mod
-  else
-    vim.notify(
-      "local_config.lua の読み込みに失敗しました: " .. tostring(mod),
-      vim.log.levels.WARN
-    )
-  end
+	if ok and type(mod) == "table" then
+		local_config = mod
+	else
+		vim.notify("local_config.lua の読み込みに失敗しました: " .. tostring(mod), vim.log.levels.WARN)
+	end
 end
 
 -- Setup lazy.nvim
@@ -95,7 +92,7 @@ require("lazy").setup({
 		{ "cocopon/iceberg.vim" },
 		{
 			"monkoose/neocodeium",
-   		    enabled = local_config.enable_private_plugins == true,
+			enabled = local_config.enable_private_plugins == true,
 			event = "VeryLazy",
 			config = function()
 				local neocodeium = require("neocodeium")
@@ -385,6 +382,25 @@ require("lazy").setup({
 -- Language Server を有効化する
 -- ref [GitHub - neovim/nvim-lspconfig: Quickstart configs for Nvim LSP](https://github.com/neovim/nvim-lspconfig)
 -- ref [nvim-lspconfig/doc/configs.md at master · neovim/nvim-lspconfig · GitHub](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
+vim.lsp.config("lua_ls", {
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+			},
+			diagnostics = {
+				globals = { "vim" },
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+				checkThirdParty = false,
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("denols")
 vim.lsp.enable("nushell")
