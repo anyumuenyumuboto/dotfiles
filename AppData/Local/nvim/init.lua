@@ -411,21 +411,8 @@ end
 vim.cmd("colorscheme iceberg")
 -- 背景色を設定する
 vim.cmd("set background=light")
-
--- Neovimで、windowsの場合、ExコマンドモードでPowerShell を使うように設定する
--- if vim.fn.has("win64") == 1 then
--- 	vim.opt.shell = "pwsh"
--- 	vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
--- 	vim.opt.shellquote = ""
--- 	vim.opt.shellxquote = ""
--- end
--- Neovimで、windowsの場合、Exコマンドモードでnushell を使うように設定する
--- if vim.fn.has("win64") == 1 then
--- 	vim.opt.shell = "nu"
--- 	-- vim.o.shellcmdflag = "-NoLogo -ExecutionPolicy RemoteSigned -Command \"$PSStyle.OutputRendering='PlainText';\""
--- 	vim.opt.shellquote = ""
--- 	vim.opt.shellxquote = ""
--- end
+-- shellを設定する
+vim.opt.shell = "nu"
 
 -- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
 local map = vim.api.nvim_set_keymap
