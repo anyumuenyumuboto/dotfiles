@@ -429,6 +429,12 @@ vim.cmd("colorscheme iceberg")
 vim.cmd("set background=light")
 -- shellを設定する
 vim.opt.shell = "nu"
+if vim.fn.executable("nu") == 1 then
+	vim.opt.shell = vim.fn.exepath("nu")
+	vim.opt.shellcmdflag = "-c"
+	vim.opt.shellquote = ""
+	vim.opt.shellxquote = ""
+end
 
 -- [romgrk/barbar.nvim: The neovim tabline plugin.](https://github.com/romgrk/barbar.nvim/)
 local map = vim.api.nvim_set_keymap
