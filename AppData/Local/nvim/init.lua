@@ -41,6 +41,45 @@ require("lazy").setup({
 	spec = {
 		-- add your plugins here
 		{
+			"kevinhwang91/nvim-ufo",
+			dependencies = { "kevinhwang91/promise-async" },
+			event = "BufReadPost",
+
+			-- 1. 設定本体（関数定義を排除し、シンプルに）
+			config = function()
+				-- 必須オプション
+				vim.o.foldcolumn = "1"
+				vim.o.foldlevel = 99
+				vim.o.foldlevelstart = 99
+				vim.o.foldenable = true
+				vim.o.foldmethod = "manual"
+
+				-- setupの引数を空にし、デフォルト動作（LSP -> Treesitter -> Indent）に任せる
+				require("ufo").setup({
+					-- ufoが自動的に閉じるfoldの種類を「なし（空）」にする
+					close_fold_kinds = {},
+				})
+			end,
+
+			-- 2. キーマップ（lazy.nvimの機能を使い、ロードタイミングのエラーを回避）
+			keys = {
+				{
+					"zR",
+					function()
+						require("ufo").openAllFolds()
+					end,
+					desc = "ufo: Open all",
+				},
+				{
+					"zM",
+					function()
+						require("ufo").closeAllFolds()
+					end,
+					desc = "ufo: Close all",
+				},
+			},
+		},
+		{
 			"folke/flash.nvim",
 			event = "VeryLazy",
 			---@type Flash.Config
