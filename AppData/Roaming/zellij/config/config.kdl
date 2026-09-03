@@ -1,0 +1,9 @@
+default_shell "nu"
+
+keybinds {
+    // 既存のノーマルモード（または全モード）での Ctrl+q を無効化
+    normal {
+        // Ctrl + q の動作を解除
+        unbind "Ctrl q"
+    }
+}
