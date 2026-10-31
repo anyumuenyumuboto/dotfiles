@@ -1,0 +1,46 @@
+[window]
+# ウィンドウサイズ
+# dimensions = { columns = 100, lines = 30 }
+# 画面端のパディング
+# padding = { x = 4, y = 2 }
+# 背景を透過させる
+# opacity = 0.9
+[terminal]
+shell = "nu"
+
+# Iceberg Light Colorscheme
+[colors.primary]
+background = "#e8e9ec"
+foreground = "#33374c"
+
+[colors.cursor]
+text = "#e8e9ec"
+cursor = "#33374c"
+
+[colors.vi_mode_cursor]
+text = "#e8e9ec"
+cursor = "#33374c"
+
+[colors.selection]
+text = "#33374c"
+background = "#bbbdca"
+
+[colors.normal]
+black   = "#dcdfe7"
+red     = "#cc517a"
+green   = "#668e3d"
+yellow  = "#c57339"
+blue    = "#2d539e"
+magenta = "#775b9b"
+cyan    = "#468aa8"
+white   = "#33374c"
+
+[colors.bright]
+black   = "#8389a3"
+red     = "#cc3768"
+green   = "#598030"
+yellow  = "#b6662b"
+blue    = "#22478e"
+magenta = "#6845ad"
+cyan    = "#327696"
+white   = "#262a3f"

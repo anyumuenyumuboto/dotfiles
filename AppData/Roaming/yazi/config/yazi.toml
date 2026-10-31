@@ -1,7 +1,5 @@
 [opener]
-# windowsでテキストファイルを開く際にvim(nvim)を指定
-# [yaziのインストール方法と初期設定](https://zenn.dev/kabec_dev/articles/9deed65b6b6519#%E2%96%A0-windows%E3%81%A7%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E9%96%8B%E3%81%8F%E9%9A%9B%E3%81%ABvim(nvim)%E3%82%92%E6%8C%87%E5%AE%9A)
+# windowsでテキストファイルを開く際にneovimを指定
 edit = [
-  { run = 'nvim %*', block = true, desc = "nvim", for = "windows" },
-  { run = 'nvim -w %*', block = true, desc = "nvim (block)", for = "windows" },
+  { run = 'nvim %s', block = true, desc = "nvim"},
 ]
